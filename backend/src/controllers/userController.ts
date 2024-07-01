@@ -33,6 +33,7 @@ export const registerUser = async (req: Request, res: Response) => {
       res.status(400).json({ message: 'Invalid user data' });
     }
   } catch (error) {
+    console.error('Error registering user:', error); // Add this line
     res.status(500).json({ message: 'Server error' });
   }
 };
