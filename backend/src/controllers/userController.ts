@@ -1,9 +1,15 @@
 import { Request, Response } from 'express';
+import { validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
 export const registerUser = async (req: Request, res: Response) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   const { name, email, password } = req.body;
 
   try {
@@ -33,7 +39,6 @@ export const registerUser = async (req: Request, res: Response) => {
       res.status(400).json({ message: 'Invalid user data' });
     }
   } catch (error) {
-    console.error('Error registering user:', error); // Add this line
     res.status(500).json({ message: 'Server error' });
   }
 };
