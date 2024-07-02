@@ -25,7 +25,7 @@ export const registerUser = async (req: Request, res: Response) => {
     const user = await User.create({
       name,
       email,
-      password: hashedPassword
+      password: hashedPassword,
     });
 
     if (user) {
@@ -33,7 +33,7 @@ export const registerUser = async (req: Request, res: Response) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        token: generateToken(user._id)
+        token: generateToken(user._id),
       });
     } else {
       res.status(400).json({ message: 'Invalid user data' });
@@ -63,13 +63,12 @@ export const loginUser = async (req: Request, res: Response) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      token: generateToken(user._id)
+      token: generateToken(user._id),
     });
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
   }
 };
-
 
 export const getUserProfile = async (req: Request, res: Response) => {
   const user = req.user;
@@ -109,9 +108,8 @@ export const updateUserProfile = async (req: Request, res: Response) => {
   }
 };
 
-
 const generateToken = (id: string) => {
   return jwt.sign({ id }, process.env.JWT_SECRET!, {
-    expiresIn: '30d'
+    expiresIn: '30d',
   });
 };

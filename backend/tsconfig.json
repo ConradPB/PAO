@@ -10,4 +10,3 @@
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/custom.d.ts", "src/index.ts"]
 }
-
