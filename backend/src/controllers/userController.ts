@@ -66,6 +66,21 @@ export const loginUser = async (req: Request, res: Response) => {
 };
 
 
+export const getUserProfile = async (req: Request, res: Response) => {
+  const user = req.user;
+
+  if (user) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+    });
+  } else {
+    res.status(404).json({ message: 'User not found' });
+  }
+};
+
+
 const generateToken = (id: string) => {
   return jwt.sign({ id }, process.env.JWT_SECRET!, {
     expiresIn: '30d'
