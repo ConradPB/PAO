@@ -80,6 +80,30 @@ export const getUserProfile = async (req: Request, res: Response) => {
   }
 };
 
+export const updateUserProfile = async (req: Request, res: Response) => {
+  const user = req.user;
+
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    if (req.body.password) {
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(req.body.password, salt);
+    }
+
+    const updatedUser = await user.save();
+
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      token: generateToken(updatedUser._id),
+    });
+  } else {
+    res.status(404).json({ message: 'User not found' });
+  }
+};
+
 
 const generateToken = (id: string) => {
   return jwt.sign({ id }, process.env.JWT_SECRET!, {
