@@ -6,9 +6,8 @@
     "sourceMap": true,
     "outDir": "dist",
     "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true
+    "strict": true
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/index.ts"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/custom.d.ts", "src/index.ts"]
 }
+

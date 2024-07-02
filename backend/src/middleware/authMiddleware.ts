@@ -1,7 +1,6 @@
-// src/middleware/authMiddleware.ts
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
-import User from '../models/User.js';
+import User, { IUser } from '../models/User.js';
 
 interface JwtPayload {
   id: string;
@@ -14,7 +13,7 @@ const protect = async (req: Request, res: Response, next: NextFunction) => {
     try {
       token = req.headers.authorization.split(' ')[1];
       const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
-      const user = await User.findById(decoded.id).select('-password');
+      const user = await User.findById(decoded.id).select('-password') as IUser;
 
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
