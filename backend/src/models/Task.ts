@@ -1,34 +1,34 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface ITask extends Document {
+  user: mongoose.Schema.Types.ObjectId;
   title: string;
   description: string;
-  completed: boolean;
-  user: mongoose.Schema.Types.ObjectId;
+  dueDate: Date;
 }
 
 const taskSchema: Schema = new Schema(
   {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User',
+    },
     title: {
       type: String,
-      required: true
+      required: true,
     },
     description: {
       type: String,
-      required: true
+      required: true,
     },
-    completed: {
-      type: Boolean,
-      default: false
+    dueDate: {
+      type: Date,
+      required: true,
     },
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true
-    }
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 
