@@ -18,21 +18,30 @@ const getTasks = asyncHandler(async (req: Request, res: Response) => {
 // @route   POST /api/tasks
 // @access  Private
 const createTask = asyncHandler(async (req: Request, res: Response) => {
+  const { title, description, dueDate } = req.body;
+
+  if (!title || !description || !dueDate) {
+    res.status(400);
+    throw new Error('Please add all fields');
+  }
+
+  // Type guard for req.user
   if (!req.user) {
     res.status(401);
-    throw new Error('Not authorized, no user found');
+    throw new Error('User not authorized');
   }
-  const { title, description } = req.body;
 
   const task = new Task({
-    user: req.user._id,
     title,
     description,
+    dueDate,
+    user: req.user._id,
   });
 
   const createdTask = await task.save();
   res.status(201).json(createdTask);
 });
+
 
 // @desc    Update a task
 // @route   PUT /api/tasks/:id
