@@ -34,6 +34,34 @@ const createTask = asyncHandler(async (req: Request, res: Response) => {
   res.status(201).json(createdTask);
 });
 
+// @desc    Update a task
+// @route   PUT /api/tasks/:id
+// @access  Private
+const updateTask = asyncHandler(async (req: Request, res: Response) => {
+  if (!req.user) {
+    res.status(401);
+    throw new Error('Not authorized, no user found');
+  }
+
+  const task = await Task.findById(req.params.id);
+
+  if (task) {
+    if (task.user.toString() !== req.user._id.toString()) {
+      res.status(401);
+      throw new Error('User not authorized');
+    }
+
+    task.title = req.body.title || task.title;
+    task.description = req.body.description || task.description;
+
+    const updatedTask = await task.save();
+    res.json(updatedTask);
+  } else {
+    res.status(404);
+    throw new Error('Task not found');
+  }
+});
+
 // @desc    Delete a task
 // @route   DELETE /api/tasks/:id
 // @access  Private
@@ -58,4 +86,4 @@ const deleteTask = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
-export { getTasks, createTask, deleteTask };
+export { getTasks, createTask, updateTask, deleteTask };
