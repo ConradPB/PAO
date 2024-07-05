@@ -1,46 +1,61 @@
 import { Request, Response } from 'express';
+import asyncHandler from 'express-async-handler';
 import Task from '../models/Task.js';
 
-const createTask = async (req: Request, res: Response) => {
-  const { title, description } = req.body;
-  const task = new Task({
-    title,
-    description,
-    user: req.user._id
-  });
-  const createdTask = await task.save();
-  res.status(201).json(createdTask);
-};
-
-const getTasks = async (req: Request, res: Response) => {
+// @desc    Get all tasks
+// @route   GET /api/tasks
+// @access  Private
+const getTasks = asyncHandler(async (req: Request, res: Response) => {
+  if (!req.user) {
+    res.status(401);
+    throw new Error('Not authorized, no user found');
+  }
   const tasks = await Task.find({ user: req.user._id });
   res.json(tasks);
-};
+});
 
-const updateTask = async (req: Request, res: Response) => {
-  const { title, description, completed } = req.body;
-  const task = await Task.findById(req.params.id);
-
-  if (task && task.user.toString() === req.user._id.toString()) {
-    task.title = title;
-    task.description = description;
-    task.completed = completed;
-    const updatedTask = await task.save();
-    res.json(updatedTask);
-  } else {
-    res.status(404).json({ message: 'Task not found' });
+// @desc    Create a new task
+// @route   POST /api/tasks
+// @access  Private
+const createTask = asyncHandler(async (req: Request, res: Response) => {
+  if (!req.user) {
+    res.status(401);
+    throw new Error('Not authorized, no user found');
   }
-};
+  const { title, description } = req.body;
 
-const deleteTask = async (req: Request, res: Response) => {
+  const task = new Task({
+    user: req.user._id,
+    title,
+    description,
+  });
+
+  const createdTask = await task.save();
+  res.status(201).json(createdTask);
+});
+
+// @desc    Delete a task
+// @route   DELETE /api/tasks/:id
+// @access  Private
+const deleteTask = asyncHandler(async (req: Request, res: Response) => {
+  if (!req.user) {
+    res.status(401);
+    throw new Error('Not authorized, no user found');
+  }
+
   const task = await Task.findById(req.params.id);
 
-  if (task && task.user.toString() === req.user._id.toString()) {
-    await task.remove();
+  if (task) {
+    if (task.user.toString() !== req.user._id.toString()) {
+      res.status(401);
+      throw new Error('User not authorized');
+    }
+    await Task.deleteOne({ _id: req.params.id });
     res.json({ message: 'Task removed' });
   } else {
-    res.status(404).json({ message: 'Task not found' });
+    res.status(404);
+    throw new Error('Task not found');
   }
-};
+});
 
-export { createTask, getTasks, updateTask, deleteTask };
+export { getTasks, createTask, deleteTask };
