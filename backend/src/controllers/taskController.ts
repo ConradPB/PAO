@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import Task from '../models/Task.js';
+import mongoose from 'mongoose';
 
 // @desc    Get all tasks
 // @route   GET /api/tasks
@@ -47,28 +48,36 @@ const createTask = asyncHandler(async (req: Request, res: Response) => {
 // @route   PUT /api/tasks/:id
 // @access  Private
 const updateTask = asyncHandler(async (req: Request, res: Response) => {
-  if (!req.user) {
-    res.status(401);
-    throw new Error('Not authorized, no user found');
+  const { id } = req.params;
+  const { title, description, dueDate } = req.body;
+
+  // Trim the ID to remove any extra spaces or newline characters
+  const trimmedId = id.trim();
+
+  // Validate the ID format
+  if (!mongoose.Types.ObjectId.isValid(trimmedId)) {
+    res.status(400);
+    throw new Error('Invalid task ID');
   }
 
-  const task = await Task.findById(req.params.id);
+  const task = await Task.findById(trimmedId);
 
-  if (task) {
-    if (task.user.toString() !== req.user._id.toString()) {
-      res.status(401);
-      throw new Error('User not authorized');
-    }
-
-    task.title = req.body.title || task.title;
-    task.description = req.body.description || task.description;
-
-    const updatedTask = await task.save();
-    res.json(updatedTask);
-  } else {
+  if (!task) {
     res.status(404);
     throw new Error('Task not found');
   }
+
+  if (task.user.toString() !== req.user!._id.toString()) {
+    res.status(401);
+    throw new Error('User not authorized');
+  }
+
+  task.title = title || task.title;
+  task.description = description || task.description;
+  task.dueDate = dueDate || task.dueDate;
+
+  const updatedTask = await task.save();
+  res.status(200).json(updatedTask);
 });
 
 // @desc    Delete a task
