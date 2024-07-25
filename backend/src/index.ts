@@ -4,6 +4,7 @@ import { connectToMongoDB, disconnectFromMongoDB } from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
 import taskRoutes from './routes/taskRoutes.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
+import startCountdown from './utils/countdown.js';
 
 dotenv.config();
 
@@ -11,6 +12,9 @@ dotenv.config();
 connectToMongoDB();
 
 const app = express();
+
+// Start the countdown timers
+startCountdown();
 
 // Middleware for parsing JSON and urlencoded data
 app.use(express.json());
