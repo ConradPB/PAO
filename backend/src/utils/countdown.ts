@@ -1,4 +1,4 @@
-import cron from 'node-cron'
+import cron from 'node-cron';
 import Event from '../models/Event.js';
 
 const startCountdown = () => {
