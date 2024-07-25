@@ -1,8 +1,8 @@
-import cron from 'node-cron';
+import { schedule } from 'node-cron';
 import Event from '../models/Event.js';
 
 const startCountdown = () => {
-  cron.schedule('* * * * *', async () => { // Runs every minute
+  schedule('* * * * *', async () => { // Runs every minute
     const now = new Date();
     const events = await Event.find({ date: { $gte: now } });
 
