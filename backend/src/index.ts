@@ -5,6 +5,7 @@ import userRoutes from './routes/userRoutes.js';
 import taskRoutes from './routes/taskRoutes.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import startCountdown from './utils/countdown.js';
+import eventRoutes from './routes/eventRoutes.js';
 
 dotenv.config();
 
@@ -22,7 +23,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/users', userRoutes);
-app.use('/api/tasks', taskRoutes)
+app.use('/api/tasks', taskRoutes);
+app.use('/api/events', eventRoutes);
+
 
 // Error handling middleware
 app.use(notFound);
