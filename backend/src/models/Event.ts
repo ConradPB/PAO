@@ -6,7 +6,7 @@ interface IEvent extends Document {
   description: string;
   date: Date;
   recurring: boolean;
-  frequency?: string;
+  frequency?: string | null; // Allow null
 }
 
 const eventSchema: Schema = new Schema(
