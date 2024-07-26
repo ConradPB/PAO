@@ -74,10 +74,9 @@ const updateEvent = asyncHandler(async (req: Request, res: Response) => {
   event.description = description || event.description;
   event.date = date || event.date;
   event.recurring = recurring !== undefined ? recurring : event.recurring;
-  event.frequency = recurring ? frequency : null;
 
-  if (!recurring) {
-    event.frequency = null;
+  if (recurring !== undefined) {
+    event.frequency = recurring ? frequency : null;
   }
 
   const updatedEvent = await event.save();
