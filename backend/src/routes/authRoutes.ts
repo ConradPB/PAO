@@ -3,22 +3,29 @@ import passport from 'passport';
 
 const router = express.Router();
 
-// Redirect to Google for authentication
-router.get('/google', passport.authenticate('google', {
-  scope: ['profile', 'email']
-}));
+// @desc    Auth with Google
+// @route   GET /auth/google
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-// Handle the callback after Google has authenticated the user
-router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/' }),
+// @desc    Google auth callback
+// @route   GET /auth/google/callback
+router.get(
+  '/google/callback',
+  passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
-    res.redirect('/dashboard'); // Redirect to your desired route
+    res.redirect('/dashboard');
   }
 );
 
-// Logout the user
-router.get('/logout', (req, res) => {
-  req.logout();
-  res.redirect('/');
+// @desc    Logout user
+// @route   GET /auth/logout
+router.get('/logout', (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect('/');
+  });
 });
 
 export default router;
