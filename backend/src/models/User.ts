@@ -1,19 +1,19 @@
-import mongoose, { Schema, Document } from 'mongoose';
+// models/User.ts
+import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IUser extends Document {
-  googleId: string;
+  googleId?: string;
   name: string;
   email: string;
-  password: string;
+  password?: string;
 }
 
 const userSchema: Schema = new Schema(
   {
     googleId: {
       type: String,
-      required: true,
-      unique: true,
-      },
+      required: false,
+    },
     name: {
       type: String,
       required: true,
@@ -25,8 +25,8 @@ const userSchema: Schema = new Schema(
     },
     password: {
       type: String,
-      required: true,
     },
+   
   },
   {
     timestamps: true,
