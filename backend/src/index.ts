@@ -3,9 +3,13 @@ import dotenv from 'dotenv';
 import { connectToMongoDB, disconnectFromMongoDB } from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
 import taskRoutes from './routes/taskRoutes.js';
+import eventRoutes from './routes/eventRoutes.js';
+import authRoutes from './routes/authRoutes.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import startCountdown from './utils/countdown.js';
-import eventRoutes from './routes/eventRoutes.js';
+import passport from 'passport';
+import session from 'express-session';
+import './config/passportConfig.js'; // Ensure to import passport configuration
 
 dotenv.config();
 
@@ -21,10 +25,22 @@ startCountdown();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Session handling
+app.use(session({
+  secret: process.env.SESSION_SECRET!,
+  resave: false,
+  saveUninitialized: true,
+}));
+
+// Initialize Passport and session
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/events', eventRoutes);
+app.use('/auth', authRoutes);
 
 // Error handling middleware
 app.use(notFound);
