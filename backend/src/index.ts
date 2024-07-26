@@ -26,7 +26,6 @@ app.use('/api/users', userRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/events', eventRoutes);
 
-
 // Error handling middleware
 app.use(notFound);
 app.use(errorHandler);
