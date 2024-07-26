@@ -9,7 +9,7 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import startCountdown from './utils/countdown.js';
 import passport from 'passport';
 import session from 'express-session';
-import './config/passportConfig.js'; // Ensure to import passport configuration
+import './config/passportConfig.js'; 
 
 dotenv.config();
 
