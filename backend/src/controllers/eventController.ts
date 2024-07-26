@@ -21,7 +21,7 @@ const getEvents = asyncHandler(async (req: Request, res: Response) => {
 const createEvent = asyncHandler(async (req: Request, res: Response) => {
   const { title, description, date, recurring, frequency } = req.body;
 
-  if (!title || !description || !date) {
+  if (!title || !description || !date || (recurring && !frequency)) {
     res.status(400);
     throw new Error('Please add all fields');
   }
