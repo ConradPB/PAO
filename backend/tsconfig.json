@@ -6,7 +6,8 @@
     "sourceMap": true,
     "outDir": "dist",
     "allowSyntheticDefaultImports": true,
-    "strict": true
+    "strict": true,
+    "typeRoots": ["./node_modules/@types", "./src/@types"]
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/custom.d.ts", "src/index.ts"]
 }
