@@ -2,11 +2,17 @@ import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import Task from '../models/Task.js';
 import mongoose from 'mongoose';
+import { IUser } from '../models/User.js';
+
+// Ensure Request includes IUser
+interface AuthenticatedRequest extends Request {
+  user?: IUser;
+}
 
 // @desc    Get all tasks
 // @route   GET /api/tasks
 // @access  Private
-const getTasks = asyncHandler(async (req: Request, res: Response) => {
+const getTasks = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
   if (!req.user) {
     res.status(401);
     throw new Error('Not authorized, no user found');
@@ -18,7 +24,7 @@ const getTasks = asyncHandler(async (req: Request, res: Response) => {
 // @desc    Create a new task
 // @route   POST /api/tasks
 // @access  Private
-const createTask = asyncHandler(async (req: Request, res: Response) => {
+const createTask = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
   const { title, description, dueDate } = req.body;
 
   if (!title || !description || !dueDate) {
@@ -26,7 +32,6 @@ const createTask = asyncHandler(async (req: Request, res: Response) => {
     throw new Error('Please add all fields');
   }
 
-  // Type guard for req.user
   if (!req.user) {
     res.status(401);
     throw new Error('User not authorized');
@@ -43,18 +48,15 @@ const createTask = asyncHandler(async (req: Request, res: Response) => {
   res.status(201).json(createdTask);
 });
 
-
 // @desc    Update a task
 // @route   PUT /api/tasks/:id
 // @access  Private
-const updateTask = asyncHandler(async (req: Request, res: Response) => {
+const updateTask = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
   const { id } = req.params;
   const { title, description, dueDate } = req.body;
 
-  // Trim the ID to remove any extra spaces or newline characters
   const trimmedId = id.trim();
 
-  // Validate the ID format
   if (!mongoose.Types.ObjectId.isValid(trimmedId)) {
     res.status(400);
     throw new Error('Invalid task ID');
@@ -83,7 +85,7 @@ const updateTask = asyncHandler(async (req: Request, res: Response) => {
 // @desc    Delete a task
 // @route   DELETE /api/tasks/:id
 // @access  Private
-const deleteTask = asyncHandler(async (req: Request, res: Response) => {
+const deleteTask = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
   if (!req.user) {
     res.status(401);
     throw new Error('Not authorized, no user found');
