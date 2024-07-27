@@ -1,35 +1,33 @@
-import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
 import User, { IUser } from '../models/User.js';
-import dotenv from 'dotenv';
 
-dotenv.config();
-
-interface JwtPayload {
-  id: string;
+interface AuthenticatedRequest extends Request {
+  user?: IUser;
 }
 
-const protect = async (req: Request, res: Response, next: NextFunction) => {
-  const authHeader = req.header('Authorization');
-  if (!authHeader) {
-    return res.status(401).json({ msg: 'No token, authorization denied' });
-  }
+const protect = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+  let token;
 
-  const token = authHeader.split(' ')[1];
-  if (!token) {
-    return res.status(401).json({ msg: 'No token, authorization denied' });
-  }
+  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    try {
+      token = req.headers.authorization.split(' ')[1];
 
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
-    const user = await User.findById(decoded.id).select('-password');
-    if (!user) {
-      return res.status(404).json({ msg: 'User not found' });
+      const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
+
+      req.user = await User.findById(decoded.id).select('-password');
+
+      next();
+    } catch (error) {
+      console.error(error);
+      res.status(401);
+      throw new Error('Not authorized, token failed');
     }
-    req.user = user;
-    next();
-  } catch (err) {
-    res.status(401).json({ msg: 'Token is not valid' });
+  }
+
+  if (!token) {
+    res.status(401);
+    throw new Error('Not authorized, no token');
   }
 };
 
