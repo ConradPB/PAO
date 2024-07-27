@@ -9,14 +9,6 @@ interface JwtPayload {
   id: string;
 }
 
-declare global {
-  namespace Express {
-    interface Request {
-      user?: IUser;
-    }
-  }
-}
-
 const protect = async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.header('Authorization');
   if (!authHeader) {
