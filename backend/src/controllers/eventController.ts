@@ -107,4 +107,4 @@ const deleteEvent = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
-export { getEvents, createEvent, updateEvent,
+export { getEvents, createEvent, updateEvent, deleteEvent };
