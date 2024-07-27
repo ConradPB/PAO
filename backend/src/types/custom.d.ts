@@ -1,7 +1,6 @@
+import { Request } from 'express';
 import { IUser } from '../models/User.ts';
 
-declare module 'express-serve-static-core' {
-  interface Request {
-    user?: IUser | null;
-  }
+export interface AuthenticatedRequest extends Request {
+  user?: IUser;
 }

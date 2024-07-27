@@ -2,9 +2,26 @@ import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import User from '../models/User.js';
+import User, { IUser } from '../models/User.js';
+import { AuthenticatedRequest } from '../types/custom.js';
 
-export const registerUser = async (req: Request, res: Response) => {
+// Ensure JWT_SECRET is defined
+const jwtSecret = process.env.JWT_SECRET;
+if (!jwtSecret) {
+  throw new Error('JWT_SECRET is not defined');
+}
+
+// Utility function to generate JWT
+const generateToken = (id: string): string => {
+  return jwt.sign({ id }, jwtSecret as string, {
+    expiresIn: '30d',
+  });
+};
+
+// @desc    Register a new user
+// @route   POST /api/users
+// @access  Public
+export const registerUser = async (req: Request, res: Response): Promise<Response> => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -29,21 +46,24 @@ export const registerUser = async (req: Request, res: Response) => {
     });
 
     if (user) {
-      res.status(201).json({
+      return res.status(201).json({
         _id: user._id,
         name: user.name,
         email: user.email,
-        token: generateToken(user._id),
+        token: generateToken(user._id.toString()),
       });
     } else {
-      res.status(400).json({ message: 'Invalid user data' });
+      return res.status(400).json({ message: 'Invalid user data' });
     }
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    return res.status(500).json({ message: 'Server error' });
   }
 };
 
-export const loginUser = async (req: Request, res: Response) => {
+// @desc    Authenticate user & get token
+// @route   POST /api/users/login
+// @access  Public
+export const loginUser = async (req: Request, res: Response): Promise<Response> => {
   const { email, password } = req.body;
 
   try {
@@ -59,32 +79,38 @@ export const loginUser = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       _id: user._id,
       name: user.name,
       email: user.email,
-      token: generateToken(user._id),
+      token: generateToken(user._id.toString()),
     });
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    return res.status(500).json({ message: 'Server error' });
   }
 };
 
-export const getUserProfile = async (req: Request, res: Response) => {
+// @desc    Get user profile
+// @route   GET /api/users/profile
+// @access  Private
+export const getUserProfile = async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
   const user = req.user;
 
   if (user) {
-    res.json({
+    return res.json({
       _id: user._id,
       name: user.name,
       email: user.email,
     });
   } else {
-    res.status(404).json({ message: 'User not found' });
+    return res.status(404).json({ message: 'User not found' });
   }
 };
 
-export const updateUserProfile = async (req: Request, res: Response) => {
+// @desc    Update user profile
+// @route   PUT /api/users/profile
+// @access  Private
+export const updateUserProfile = async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
   const user = req.user;
 
   if (user) {
@@ -97,19 +123,13 @@ export const updateUserProfile = async (req: Request, res: Response) => {
 
     const updatedUser = await user.save();
 
-    res.json({
+    return res.json({
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
-      token: generateToken(updatedUser._id),
+      token: generateToken(updatedUser._id.toString()),
     });
   } else {
-    res.status(404).json({ message: 'User not found' });
+    return res.status(404).json({ message: 'User not found' });
   }
-};
-
-const generateToken = (id: string) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET!, {
-    expiresIn: '30d',
-  });
 };
