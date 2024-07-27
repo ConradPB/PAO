@@ -2,6 +2,7 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IUser extends Document {
+  _id: mongoose.Schema.Types.ObjectId;
   googleId?: string;
   name: string;
   email: string;
