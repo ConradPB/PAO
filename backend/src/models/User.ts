@@ -1,7 +1,8 @@
+// models/User.ts
 import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IUser extends Document {
-  _id: string;  
+  _id: string;  // Treat _id as a string for simplicity
   googleId?: string;
   name: string;
   email: string;
