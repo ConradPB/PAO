@@ -13,7 +13,7 @@ if (!jwtSecret) {
 
 // Utility function to generate JWT
 const generateToken = (id: string): string => {
-  return jwt.sign({ id }, jwtSecret as string, {
+  return jwt.sign({ id }, jwtSecret, {
     expiresIn: '30d',
   });
 };
@@ -50,7 +50,7 @@ export const registerUser = async (req: Request, res: Response): Promise<Respons
         _id: user._id,
         name: user.name,
         email: user.email,
-        token: generateToken(user._id.toString()),
+        token: generateToken(user._id.toString()),  // Convert _id to string
       });
     } else {
       return res.status(400).json({ message: 'Invalid user data' });
@@ -83,7 +83,7 @@ export const loginUser = async (req: Request, res: Response): Promise<Response> 
       _id: user._id,
       name: user.name,
       email: user.email,
-      token: generateToken(user._id.toString()),
+      token: generateToken(user._id.toString()),  // Convert _id to string
     });
   } catch (error) {
     return res.status(500).json({ message: 'Server error' });
@@ -127,7 +127,7 @@ export const updateUserProfile = async (req: AuthenticatedRequest, res: Response
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
-      token: generateToken(updatedUser._id.toString()),
+      token: generateToken(updatedUser._id.toString()),  // Convert _id to string
     });
   } else {
     return res.status(404).json({ message: 'User not found' });
