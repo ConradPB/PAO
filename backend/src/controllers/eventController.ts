@@ -4,6 +4,7 @@ import Event from '../models/Event.js';
 import mongoose from 'mongoose';
 import { IUser } from '../models/User.js';
 
+// Ensure Request includes IUser
 interface AuthenticatedRequest extends Request {
   user?: IUser;
 }
@@ -11,7 +12,7 @@ interface AuthenticatedRequest extends Request {
 // @desc    Get all events
 // @route   GET /api/events
 // @access  Private
-const getEvents = asyncHandler(async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+const getEvents = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
   if (!req.user) {
     res.status(401);
     throw new Error('Not authorized, no user found');
@@ -23,7 +24,7 @@ const getEvents = asyncHandler(async (req: AuthenticatedRequest, res: Response, 
 // @desc    Create a new event
 // @route   POST /api/events
 // @access  Private
-const createEvent = asyncHandler(async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+const createEvent = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
   const { title, description, date, recurring, frequency } = req.body;
 
   if (!title || !description || !date || (recurring && !frequency)) {
@@ -52,7 +53,7 @@ const createEvent = asyncHandler(async (req: AuthenticatedRequest, res: Response
 // @desc    Update an event
 // @route   PUT /api/events/:id
 // @access  Private
-const updateEvent = asyncHandler(async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+const updateEvent = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
   const { id } = req.params;
   const { title, description, date, recurring, frequency } = req.body;
 
@@ -91,7 +92,7 @@ const updateEvent = asyncHandler(async (req: AuthenticatedRequest, res: Response
 // @desc    Delete an event
 // @route   DELETE /api/events/:id
 // @access  Private
-const deleteEvent = asyncHandler(async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+const deleteEvent = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
   if (!req.user) {
     res.status(401);
     throw new Error('Not authorized, no user found');
