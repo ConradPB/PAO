@@ -9,5 +9,5 @@
     "strict": true,
     "typeRoots": ["./node_modules/@types", "./src/@types"]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/custom.d.ts", "src/index.ts"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/types/custom.d.ts", "src/index.ts"]
 }
