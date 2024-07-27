@@ -1,10 +1,9 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import asyncHandler from 'express-async-handler';
 import Task from '../models/Task.js';
 import mongoose from 'mongoose';
 import { IUser } from '../models/User.js';
 
-// Ensure Request includes IUser
 interface AuthenticatedRequest extends Request {
   user?: IUser;
 }
@@ -12,7 +11,7 @@ interface AuthenticatedRequest extends Request {
 // @desc    Get all tasks
 // @route   GET /api/tasks
 // @access  Private
-const getTasks = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+const getTasks = asyncHandler(async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   if (!req.user) {
     res.status(401);
     throw new Error('Not authorized, no user found');
@@ -24,7 +23,7 @@ const getTasks = asyncHandler(async (req: AuthenticatedRequest, res: Response) =
 // @desc    Create a new task
 // @route   POST /api/tasks
 // @access  Private
-const createTask = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+const createTask = asyncHandler(async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   const { title, description, dueDate } = req.body;
 
   if (!title || !description || !dueDate) {
@@ -51,7 +50,7 @@ const createTask = asyncHandler(async (req: AuthenticatedRequest, res: Response)
 // @desc    Update a task
 // @route   PUT /api/tasks/:id
 // @access  Private
-const updateTask = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+const updateTask = asyncHandler(async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   const { id } = req.params;
   const { title, description, dueDate } = req.body;
 
@@ -85,7 +84,7 @@ const updateTask = asyncHandler(async (req: AuthenticatedRequest, res: Response)
 // @desc    Delete a task
 // @route   DELETE /api/tasks/:id
 // @access  Private
-const deleteTask = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+const deleteTask = asyncHandler(async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   if (!req.user) {
     res.status(401);
     throw new Error('Not authorized, no user found');
