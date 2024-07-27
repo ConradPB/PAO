@@ -1,8 +1,7 @@
-// models/User.ts
 import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IUser extends Document {
-  _id: mongoose.Schema.Types.ObjectId;
+  _id: string;  
   googleId?: string;
   name: string;
   email: string;
@@ -27,7 +26,6 @@ const userSchema: Schema = new Schema(
     password: {
       type: String,
     },
-   
   },
   {
     timestamps: true,
