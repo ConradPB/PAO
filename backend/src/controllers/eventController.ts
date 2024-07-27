@@ -1,10 +1,9 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import asyncHandler from 'express-async-handler';
 import Event from '../models/Event.js';
 import mongoose from 'mongoose';
 import { IUser } from '../models/User.js';
 
-// Ensure Request includes IUser
 interface AuthenticatedRequest extends Request {
   user?: IUser;
 }
@@ -12,7 +11,7 @@ interface AuthenticatedRequest extends Request {
 // @desc    Get all events
 // @route   GET /api/events
 // @access  Private
-const getEvents = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+const getEvents = asyncHandler(async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   if (!req.user) {
     res.status(401);
     throw new Error('Not authorized, no user found');
@@ -24,7 +23,7 @@ const getEvents = asyncHandler(async (req: AuthenticatedRequest, res: Response) 
 // @desc    Create a new event
 // @route   POST /api/events
 // @access  Private
-const createEvent = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+const createEvent = asyncHandler(async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   const { title, description, date, recurring, frequency } = req.body;
 
   if (!title || !description || !date || (recurring && !frequency)) {
@@ -53,7 +52,7 @@ const createEvent = asyncHandler(async (req: AuthenticatedRequest, res: Response
 // @desc    Update an event
 // @route   PUT /api/events/:id
 // @access  Private
-const updateEvent = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+const updateEvent = asyncHandler(async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   const { id } = req.params;
   const { title, description, date, recurring, frequency } = req.body;
 
@@ -92,7 +91,7 @@ const updateEvent = asyncHandler(async (req: AuthenticatedRequest, res: Response
 // @desc    Delete an event
 // @route   DELETE /api/events/:id
 // @access  Private
-const deleteEvent = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+const deleteEvent = asyncHandler(async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   if (!req.user) {
     res.status(401);
     throw new Error('Not authorized, no user found');
