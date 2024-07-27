@@ -29,7 +29,7 @@ passport.use(
           done(null, user);
         }
       } catch (err) {
-        done(err, null);
+        done(err as Error, false);  // Pass 'false' instead of 'null'
       }
     }
   )
@@ -44,6 +44,6 @@ passport.deserializeUser(async (id, done) => {
     const user = await User.findById(id);
     done(null, user as IUser);
   } catch (err) {
-    done(err, null);
+    done(err as Error, false);  // Pass 'false' instead of 'null'
   }
 });
