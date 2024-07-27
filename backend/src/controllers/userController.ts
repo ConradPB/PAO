@@ -50,7 +50,7 @@ export const registerUser = async (req: Request, res: Response): Promise<Respons
         _id: user._id,
         name: user.name,
         email: user.email,
-        token: generateToken(user._id.toString()),  // Convert _id to string
+        token: generateToken(user._id.toString()), // Convert _id to string
       });
     } else {
       return res.status(400).json({ message: 'Invalid user data' });
@@ -69,7 +69,7 @@ export const loginUser = async (req: Request, res: Response): Promise<Response> 
   try {
     const user = await User.findOne({ email });
 
-    if (!user) {
+    if (!user || !user.password) { // Ensure password exists
       return res.status(400).json({ message: 'Invalid email or password' });
     }
 
@@ -83,7 +83,7 @@ export const loginUser = async (req: Request, res: Response): Promise<Response> 
       _id: user._id,
       name: user.name,
       email: user.email,
-      token: generateToken(user._id.toString()),  // Convert _id to string
+      token: generateToken(user._id.toString()), // Convert _id to string
     });
   } catch (error) {
     return res.status(500).json({ message: 'Server error' });
@@ -127,7 +127,7 @@ export const updateUserProfile = async (req: AuthenticatedRequest, res: Response
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
-      token: generateToken(updatedUser._id.toString()),  // Convert _id to string
+      token: generateToken(updatedUser._id.toString()), // Convert _id to string
     });
   } else {
     return res.status(404).json({ message: 'User not found' });
