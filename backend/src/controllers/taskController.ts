@@ -90,7 +90,7 @@ const deleteTask = asyncHandler(async (req: AuthenticatedRequest, res: Response)
     throw new Error('User not authorized');
   }
 
-  await task.remove();
+  await Task.deleteOne({ _id: task._id });
   res.json({ message: 'Task removed' });
 });
 
