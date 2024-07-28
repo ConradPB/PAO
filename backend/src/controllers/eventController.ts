@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import Event from '../models/Event.js';
-import AuthenticatedRequest from '../middleware/authMiddleware';
+import AuthenticatedRequest from '../types/custom.js';
 
 // Create Event
 export const createEvent = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
