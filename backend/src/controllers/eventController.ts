@@ -1,116 +1,89 @@
 import { Request, Response, NextFunction } from 'express';
-import asyncHandler from 'express-async-handler';
 import Event from '../models/Event.js';
-import mongoose from 'mongoose';
-import { IUser } from '../models/User.js';
+import AuthenticatedRequest from '../middleware/authMiddleware';
 
-// Ensure Request includes IUser
-interface AuthenticatedRequest extends Request {
-  user?: IUser;
-}
+// Create Event
+export const createEvent = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+  try {
+    const { title, description, date, recurring, frequency } = req.body;
 
-// @desc    Get all events
-// @route   GET /api/events
-// @access  Private
-const getEvents = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-  if (!req.user) {
-    res.status(401);
-    throw new Error('Not authorized, no user found');
-  }
-  const events = await Event.find({ user: req.user._id });
-  res.json(events);
-});
-
-// @desc    Create a new event
-// @route   POST /api/events
-// @access  Private
-const createEvent = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-  const { title, description, date, recurring, frequency } = req.body;
-
-  if (!title || !description || !date || (recurring && !frequency)) {
-    res.status(400);
-    throw new Error('Please add all fields');
-  }
-
-  if (!req.user) {
-    res.status(401);
-    throw new Error('User not authorized');
-  }
-
-  const event = new Event({
-    title,
-    description,
-    date,
-    recurring,
-    frequency: recurring ? frequency : undefined,
-    user: req.user._id,
-  });
-
-  const createdEvent = await event.save();
-  res.status(201).json(createdEvent);
-});
-
-// @desc    Update an event
-// @route   PUT /api/events/:id
-// @access  Private
-const updateEvent = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-  const { id } = req.params;
-  const { title, description, date, recurring, frequency } = req.body;
-
-  const trimmedId = id.trim();
-
-  if (!mongoose.Types.ObjectId.isValid(trimmedId)) {
-    res.status(400);
-    throw new Error('Invalid event ID');
-  }
-
-  const event = await Event.findById(trimmedId);
-
-  if (!event) {
-    res.status(404);
-    throw new Error('Event not found');
-  }
-
-  if (event.user.toString() !== req.user!._id.toString()) {
-    res.status(401);
-    throw new Error('User not authorized');
-  }
-
-  event.title = title || event.title;
-  event.description = description || event.description;
-  event.date = date || event.date;
-  event.recurring = recurring !== undefined ? recurring : event.recurring;
-
-  if (recurring !== undefined) {
-    event.frequency = recurring ? frequency : undefined;
-  }
-
-  const updatedEvent = await event.save();
-  res.status(200).json(updatedEvent);
-});
-
-// @desc    Delete an event
-// @route   DELETE /api/events/:id
-// @access  Private
-const deleteEvent = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-  if (!req.user) {
-    res.status(401);
-    throw new Error('Not authorized, no user found');
-  }
-
-  const event = await Event.findById(req.params.id);
-
-  if (event) {
-    if (event.user.toString() !== req.user._id.toString()) {
-      res.status(401);
-      throw new Error('User not authorized');
+    if (!req.user) {
+      return res.status(401).json({ message: 'User not authenticated' });
     }
-    await Event.deleteOne({ _id: req.params.id });
-    res.json({ message: 'Event removed' });
-  } else {
-    res.status(404);
-    throw new Error('Event not found');
-  }
-});
 
-export { getEvents, createEvent, updateEvent, deleteEvent };
+    const event = new Event({
+      user: req.user._id,
+      title,
+      description,
+      date,
+      recurring,
+      frequency,
+    });
+
+    await event.save();
+    res.status(201).json(event);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Get Events
+export const getEvents = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ message: 'User not authenticated' });
+    }
+
+    const events = await Event.find({ user: req.user._id });
+    res.status(200).json(events);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Update Event
+export const updateEvent = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+  try {
+    const eventId = req.params.id;
+    const updates = req.body;
+
+    if (!req.user) {
+      return res.status(401).json({ message: 'User not authenticated' });
+    }
+
+    const event = await Event.findOneAndUpdate(
+      { _id: eventId, user: req.user._id },
+      updates,
+      { new: true }
+    );
+
+    if (!event) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+
+    res.status(200).json(event);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Delete Event
+export const deleteEvent = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+  try {
+    const eventId = req.params.id;
+
+    if (!req.user) {
+      return res.status(401).json({ message: 'User not authenticated' });
+    }
+
+    const event = await Event.findOneAndDelete({ _id: eventId, user: req.user._id });
+
+    if (!event) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+
+    res.status(200).json({ message: 'Event deleted successfully' });
+  } catch (error) {
+    next(error);
+  }
+};
