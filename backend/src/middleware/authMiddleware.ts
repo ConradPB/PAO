@@ -1,7 +1,10 @@
+// authMiddleware.ts
+
 import jwt from 'jsonwebtoken';
 import asyncHandler from 'express-async-handler';
-import User, { IUser } from '../models/User.js';
+import User from '../models/User.js';
 import { Request, Response, NextFunction } from 'express';
+import { IUser } from '../models/User.js';
 
 interface AuthenticatedRequest extends Request {
   user?: IUser;
@@ -15,21 +18,20 @@ const protect = asyncHandler(async (req: AuthenticatedRequest, res: Response, ne
       token = req.headers.authorization.split(' ')[1];
       const decoded = jwt.verify(token, process.env.JWT_SECRET) as jwt.JwtPayload;
       
-      req.user = await User.findById(decoded.id).select('-password');
+      const user = await User.findById(decoded.id).select('-password');
       
-      if (!req.user) {
+      if (!user) {
         res.status(401);
         throw new Error('User not found');
       }
 
+      req.user = user as IUser;
       next();
     } catch (error) {
       res.status(401);
       throw new Error('Not authorized, token failed');
     }
-  }
-
-  if (!token) {
+  } else {
     res.status(401);
     throw new Error('Not authorized, no token');
   }
