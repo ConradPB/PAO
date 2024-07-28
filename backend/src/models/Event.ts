@@ -6,7 +6,7 @@ interface IEvent extends Document {
   description: string;
   date: Date;
   recurring: boolean;
-  frequency?: 'daily' | 'weekly' | 'monthly' | null; // Allow null
+  frequency?: 'daily' | 'weekly' | 'monthly' | null;
 }
 
 const eventSchema: Schema = new Schema(
@@ -35,7 +35,7 @@ const eventSchema: Schema = new Schema(
     },
     frequency: {
       type: String,
-      enum: ['daily', 'weekly', 'monthly', null],
+      enum: ['daily', 'weekly', 'monthly'],
       default: null,
     },
   },
