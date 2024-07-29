@@ -3,7 +3,7 @@ import { protect } from '../middleware/authMiddleware.js';
 import { createEvent, getEvents, getEventById, updateEvent, deleteEvent } from '../controllers/eventController.js';
 import { AuthenticatedRequest } from '../types/custom.js';
 
-const router = express.Router()
+const router = express.Router();
 
 router.route('/')
   .post(protect, async (req: AuthenticatedRequest, res: Response, next: NextFunction) => createEvent(req, res, next))
