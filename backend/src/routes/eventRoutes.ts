@@ -1,17 +1,31 @@
-import express from 'express';
-import { protect } from '../middleware/authMiddleware.js';
-import { createEvent, getEvents, getEventById, updateEvent, deleteEvent } from '../controllers/eventController.js';
-import { AuthenticatedRequest } from '../types/custom.js';
+import { Router } from 'express';
+import { body } from 'express-validator';
+import {
+  getEvents,
+  createEvent,
+  getEventById,
+  updateEvent,
+  deleteEvent,
+} from '../controllers/eventController.js';
+import protect from '../middleware/authMiddleware.js';
 
-const router = express.Router();
+const router = Router();
 
 router.route('/')
-  .post(protect, async (req: AuthenticatedRequest, res: Response, next: NextFunction) => createEvent(req, res, next))
-  .get(protect, async (req: AuthenticatedRequest, res: Response, next: NextFunction) => getEvents(req, res, next));
+  .get(protect as any, getEvents as any)
+  .post(
+    protect as any,
+    [
+      body('title', 'Title is required').not().isEmpty(),
+      body('description', 'Description is required').not().isEmpty(),
+      body('date', 'Date is required').isISO8601(),
+    ],
+    createEvent as any
+  );
 
 router.route('/:id')
-  .get(protect, async (req: AuthenticatedRequest, res: Response, next: NextFunction) => getEventById(req, res, next))
-  .put(protect, async (req: AuthenticatedRequest, res: Response, next: NextFunction) => updateEvent(req, res, next))
-  .delete(protect, async (req: AuthenticatedRequest, res: Response, next: NextFunction) => deleteEvent(req, res, next));
+  .get(protect as any, getEventById as any)
+  .put(protect as any, updateEvent as any)
+  .delete(protect as any, deleteEvent as any);
 
 export default router;
