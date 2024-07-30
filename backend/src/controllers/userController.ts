@@ -5,22 +5,17 @@ import jwt from 'jsonwebtoken';
 import User, { IUser } from '../models/User.js';
 import { AuthenticatedRequest } from '../types/custom.js';
 
-// Ensure JWT_SECRET is defined
 const jwtSecret = process.env.JWT_SECRET;
 if (!jwtSecret) {
   throw new Error('JWT_SECRET is not defined');
 }
 
-// Utility function to generate JWT
 const generateToken = (id: string): string => {
   return jwt.sign({ id }, jwtSecret, {
     expiresIn: '30d',
   });
 };
 
-// @desc    Register a new user
-// @route   POST /api/users
-// @access  Public
 export const registerUser = async (req: Request, res: Response): Promise<Response> => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -50,7 +45,7 @@ export const registerUser = async (req: Request, res: Response): Promise<Respons
         _id: user._id,
         name: user.name,
         email: user.email,
-        token: generateToken(user._id.toString()), // Convert _id to string
+        token: generateToken(user._id.toString()),
       });
     } else {
       return res.status(400).json({ message: 'Invalid user data' });
@@ -60,16 +55,13 @@ export const registerUser = async (req: Request, res: Response): Promise<Respons
   }
 };
 
-// @desc    Authenticate user & get token
-// @route   POST /api/users/login
-// @access  Public
 export const loginUser = async (req: Request, res: Response): Promise<Response> => {
   const { email, password } = req.body;
 
   try {
     const user = await User.findOne({ email });
 
-    if (!user || !user.password) { // Ensure password exists
+    if (!user || !user.password) {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
 
@@ -83,16 +75,13 @@ export const loginUser = async (req: Request, res: Response): Promise<Response> 
       _id: user._id,
       name: user.name,
       email: user.email,
-      token: generateToken(user._id.toString()), // Convert _id to string
+      token: generateToken(user._id.toString()),
     });
   } catch (error) {
     return res.status(500).json({ message: 'Server error' });
   }
 };
 
-// @desc    Get user profile
-// @route   GET /api/users/profile
-// @access  Private
 export const getUserProfile = async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
   const user = req.user;
 
@@ -107,9 +96,6 @@ export const getUserProfile = async (req: AuthenticatedRequest, res: Response): 
   }
 };
 
-// @desc    Update user profile
-// @route   PUT /api/users/profile
-// @access  Private
 export const updateUserProfile = async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
   const user = req.user;
 
@@ -127,7 +113,7 @@ export const updateUserProfile = async (req: AuthenticatedRequest, res: Response
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
-      token: generateToken(updatedUser._id.toString()), // Convert _id to string
+      token: generateToken(updatedUser._id.toString()),
     });
   } else {
     return res.status(404).json({ message: 'User not found' });
