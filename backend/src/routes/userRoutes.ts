@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import { body } from 'express-validator';
 import {
   registerUser,
@@ -7,6 +7,7 @@ import {
   updateUserProfile,
 } from '../controllers/userController.js';
 import protect from '../middleware/authMiddleware.js';
+import { AuthenticatedRequest } from '../types/custom.js';
 
 const router = Router();
 
@@ -31,7 +32,13 @@ router.post(
   loginUser
 );
 
-router.get('/profile', protect, getUserProfile);
-router.put('/profile', protect, updateUserProfile);
+const handleAuthRequest = (handler: (req: AuthenticatedRequest, res: Response, next: NextFunction) => Promise<Response | void>) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    return handler(req as AuthenticatedRequest, res, next);
+  };
+};
+
+router.get('/profile', protect, handleAuthRequest(getUserProfile));
+router.put('/profile', protect, handleAuthRequest(updateUserProfile));
 
 export default router;
