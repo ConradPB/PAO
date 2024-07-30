@@ -1,89 +1,75 @@
-import { Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import Event from '../models/Event.js';
 import { AuthenticatedRequest } from '../types/custom.js';
 
-// Create Event
-export const createEvent = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+export const getEvents = async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
   try {
-    const { title, description, date, recurring, frequency } = req.body;
+    const events = await Event.find({ user: req.user?._id });
+    return res.json(events);
+  } catch (error) {
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
 
-    if (!req.user) {
-      return res.status(401).json({ message: 'User not authenticated' });
-    }
-
+export const createEvent = async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
+  try {
+    const { title, description, date } = req.body;
     const event = new Event({
-      user: req.user._id,
+      user: req.user?._id,
       title,
       description,
       date,
-      recurring,
-      frequency,
     });
-
-    await event.save();
-    res.status(201).json(event);
+    const createdEvent = await event.save();
+    return res.status(201).json(createdEvent);
   } catch (error) {
-    next(error);
+    return res.status(500).json({ message: 'Server error' });
   }
 };
 
-// Get Events
-export const getEvents = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+export const getEventById = async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
   try {
-    if (!req.user) {
-      return res.status(401).json({ message: 'User not authenticated' });
-    }
+    const event = await Event.findById(req.params.id);
 
-    const events = await Event.find({ user: req.user._id });
-    res.status(200).json(events);
-  } catch (error) {
-    next(error);
-  }
-};
-
-// Update Event
-export const updateEvent = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-  try {
-    const eventId = req.params.id;
-    const updates = req.body;
-
-    if (!req.user) {
-      return res.status(401).json({ message: 'User not authenticated' });
-    }
-
-    const event = await Event.findOneAndUpdate(
-      { _id: eventId, user: req.user._id },
-      updates,
-      { new: true }
-    );
-
-    if (!event) {
+    if (event && event.user?.toString() === req.user?._id.toString()) {
+      return res.json(event);
+    } else {
       return res.status(404).json({ message: 'Event not found' });
     }
-
-    res.status(200).json(event);
   } catch (error) {
-    next(error);
+    return res.status(500).json({ message: 'Server error' });
   }
 };
 
-// Delete Event
-export const deleteEvent = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+export const updateEvent = async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
   try {
-    const eventId = req.params.id;
+    const event = await Event.findById(req.params.id);
 
-    if (!req.user) {
-      return res.status(401).json({ message: 'User not authenticated' });
-    }
-
-    const event = await Event.findOneAndDelete({ _id: eventId, user: req.user._id });
-
-    if (!event) {
+    if (event && event.user?.toString() === req.user?._id.toString()) {
+      event.title = req.body.title || event.title;
+      event.description = req.body.description || event.description;
+      event.date = req.body.date || event.date;
+      const updatedEvent = await event.save();
+      return res.json(updatedEvent);
+    } else {
       return res.status(404).json({ message: 'Event not found' });
     }
-
-    res.status(200).json({ message: 'Event deleted successfully' });
   } catch (error) {
-    next(error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
+export const deleteEvent = async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
+  try {
+    const event = await Event.findById(req.params.id);
+
+    if (event && event.user?.toString() === req.user?._id.toString()) {
+      await Event.deleteOne({ _id: event._id });
+      return res.json({ message: 'Event removed' });
+    } else {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: 'Server error' });
   }
 };
