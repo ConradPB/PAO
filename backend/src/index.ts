@@ -1,5 +1,4 @@
 import express from 'express';
-import dotenv from 'dotenv';
 import { connectToMongoDB, disconnectFromMongoDB } from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
 import taskRoutes from './routes/taskRoutes.js';
@@ -10,7 +9,7 @@ import startCountdown from './utils/countdown.js';
 import passport from 'passport';
 import session from 'express-session';
 import './config/passportConfig.js'; 
-
+import dotenv from 'dotenv';
 dotenv.config();
 
 // Connect to MongoDB
