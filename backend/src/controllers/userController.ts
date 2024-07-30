@@ -6,6 +6,7 @@ import User, { IUser } from '../models/User.js';
 import { AuthenticatedRequest } from '../types/custom.js';
 
 const jwtSecret = process.env.JWT_SECRET;
+console.log('JWT_SECRET:', process.env.JWT_SECRET)
 if (!jwtSecret) {
   throw new Error('JWT_SECRET is not defined');
 }
