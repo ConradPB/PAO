@@ -1,87 +1,73 @@
-import { Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import Task from '../models/Task.js';
 import { AuthenticatedRequest } from '../types/custom.js';
 
-// Create Task
-export const createTask = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+export const getTasks = async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
   try {
-    const { title, description, dueDate } = req.body;
+    const tasks = await Task.find({ user: req.user?._id });
+    return res.json(tasks);
+  } catch (error) {
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
 
-    if (!req.user) {
-      return res.status(401).json({ message: 'User not authenticated' });
-    }
-
+export const createTask = async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
+  try {
+    const { title, description } = req.body;
     const task = new Task({
-      user: req.user._id,
+      user: req.user?._id,
       title,
       description,
-      dueDate,
     });
-
-    await task.save();
-    res.status(201).json(task);
+    const createdTask = await task.save();
+    return res.status(201).json(createdTask);
   } catch (error) {
-    next(error);
+    return res.status(500).json({ message: 'Server error' });
   }
 };
 
-// Get Tasks
-export const getTasks = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+export const getTaskById = async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
   try {
-    if (!req.user) {
-      return res.status(401).json({ message: 'User not authenticated' });
-    }
+    const task = await Task.findById(req.params.id);
 
-    const tasks = await Task.find({ user: req.user._id });
-    res.status(200).json(tasks);
-  } catch (error) {
-    next(error);
-  }
-};
-
-// Update Task
-export const updateTask = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-  try {
-    const taskId = req.params.id;
-    const updates = req.body;
-
-    if (!req.user) {
-      return res.status(401).json({ message: 'User not authenticated' });
-    }
-
-    const task = await Task.findOneAndUpdate(
-      { _id: taskId, user: req.user._id },
-      updates,
-      { new: true }
-    );
-
-    if (!task) {
+    if (task && task.user?.toString() === req.user?._id.toString()) {
+      return res.json(task);
+    } else {
       return res.status(404).json({ message: 'Task not found' });
     }
-
-    res.status(200).json(task);
   } catch (error) {
-    next(error);
+    return res.status(500).json({ message: 'Server error' });
   }
 };
 
-// Delete Task
-export const deleteTask = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+export const updateTask = async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
   try {
-    const taskId = req.params.id;
+    const task = await Task.findById(req.params.id);
 
-    if (!req.user) {
-      return res.status(401).json({ message: 'User not authenticated' });
-    }
-
-    const task = await Task.findOneAndDelete({ _id: taskId, user: req.user._id });
-
-    if (!task) {
+    if (task && task.user?.toString() === req.user?._id.toString()) {
+      task.title = req.body.title || task.title;
+      task.description = req.body.description || task.description;
+      const updatedTask = await task.save();
+      return res.json(updatedTask);
+    } else {
       return res.status(404).json({ message: 'Task not found' });
     }
-
-    res.status(200).json({ message: 'Task deleted successfully' });
   } catch (error) {
-    next(error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
+export const deleteTask = async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
+  try {
+    const task = await Task.findById(req.params.id);
+
+    if (task && task.user?.toString() === req.user?._id.toString()) {
+      await Task.deleteOne({ _id: task._id });
+      return res.json({ message: 'Task removed' });
+    } else {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: 'Server error' });
   }
 };
