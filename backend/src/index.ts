@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import { connectToMongoDB, disconnectFromMongoDB } from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
@@ -8,9 +11,7 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import startCountdown from './utils/countdown.js';
 import passport from 'passport';
 import session from 'express-session';
-import './config/passportConfig.js'; 
-import dotenv from 'dotenv';
-dotenv.config();
+import './config/passportConfig.js';
 
 // Connect to MongoDB
 connectToMongoDB();
