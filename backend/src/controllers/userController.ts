@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import User, { IUser } from '../models/User.js';
 import { AuthenticatedRequest } from '../types/custom.js';
 
-// Load environment variables
+
 import dotenv from 'dotenv';
 dotenv.config();
 
