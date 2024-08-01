@@ -1,4 +1,3 @@
-
 import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IUser extends Document {
@@ -7,6 +6,8 @@ export interface IUser extends Document {
   name: string;
   email: string;
   password?: string;
+  age?: number;       // Added age
+  location?: string;  // Added location
 }
 
 const userSchema: Schema = new Schema(
@@ -26,6 +27,12 @@ const userSchema: Schema = new Schema(
     },
     password: {
       type: String,
+    },
+    age: {
+      type: Number, 
+    },
+    location: {
+      type: String, 
     },
   },
   {
