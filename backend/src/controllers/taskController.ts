@@ -22,9 +22,11 @@ export const createTask = async (req: AuthenticatedRequest, res: Response): Prom
     const createdTask = await task.save();
     return res.status(201).json(createdTask);
   } catch (error) {
+    console.error('Error creating task:', error); // Log the error
     return res.status(500).json({ message: 'Server error' });
   }
 };
+
 
 export const getTaskById = async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
   try {
