@@ -18,6 +18,7 @@ router.route('/')
     [
       body('title', 'Title is required').not().isEmpty(),
       body('description', 'Description is required').not().isEmpty(),
+      body('dueDate', 'Due Date is required').not().isEmpty(),
     ],
     createTask as any
   );
