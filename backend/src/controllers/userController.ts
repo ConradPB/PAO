@@ -128,7 +128,7 @@ export const updateUserProfile = async (req: AuthenticatedRequest, res: Response
       const updatedUser = await user.save();
 
       return res.json({
-        _id: updatedUser._id,
+        _id: updatedUser._id
         name: updatedUser.name,
         email: updatedUser.email,
         age: updatedUser.age,
