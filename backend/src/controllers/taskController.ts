@@ -13,11 +13,12 @@ export const getTasks = async (req: AuthenticatedRequest, res: Response): Promis
 
 export const createTask = async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
   try {
-    const { title, description } = req.body;
+    const { title, description, dueDate } = req.body;
     const task = new Task({
       user: req.user?._id,
       title,
       description,
+      dueDate,
     });
     const createdTask = await task.save();
     return res.status(201).json(createdTask);
