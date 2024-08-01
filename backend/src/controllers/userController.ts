@@ -29,7 +29,7 @@ export const registerUser = async (req: Request, res: Response): Promise<Respons
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { name, email, password } = req.body;
+  const { name, email, password, age, location } = req.body;
 
   try {
     const userExists = await User.findOne({ email });
@@ -45,12 +45,16 @@ export const registerUser = async (req: Request, res: Response): Promise<Respons
       name,
       email,
       password: hashedPassword,
+      age,
+      location,
     });
 
     return res.status(201).json({
       _id: user._id,
       name: user.name,
       email: user.email,
+      age: user.age,
+      location: user.location,
       token: generateToken(user._id.toString()),
     });
   } catch (error) {
