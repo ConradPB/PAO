@@ -16,9 +16,9 @@ router.post(
   [
     body('name', 'Name is required').not().isEmpty(),
     body('email', 'Please include a valid email').isEmail(),
-    body('password', 'Password must be 6 or more characters').isLength({
-      min: 6,
-    }),
+    body('password', 'Password must be 6 or more characters').isLength({ min: 6 }),
+    body('age', 'Age must be a number').optional().isNumeric(),  
+    body('location', 'Location must be a string').optional().isString(),
   ],
   registerUser
 );
