@@ -50,6 +50,7 @@ export const updateTask = async (req: AuthenticatedRequest, res: Response): Prom
     if (task && task.user?.toString() === req.user?._id.toString()) {
       task.title = req.body.title || task.title;
       task.description = req.body.description || task.description;
+      task.dueDate = req.body.dueDate || task.dueDate;
       const updatedTask = await task.save();
       return res.json(updatedTask);
     } else {
