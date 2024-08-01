@@ -116,6 +116,9 @@ export const updateUserProfile = async (req: AuthenticatedRequest, res: Response
   if (user) {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
+    user.age = req.body.age || user.age;            
+    user.location = req.body.location || user.location; 
+
     if (req.body.password) {
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(req.body.password, salt);
@@ -128,6 +131,8 @@ export const updateUserProfile = async (req: AuthenticatedRequest, res: Response
         _id: updatedUser._id,
         name: updatedUser.name,
         email: updatedUser.email,
+        age: updatedUser.age,
+        location: updatedUser.location,
         token: generateToken(updatedUser._id.toString()),
       });
     } catch (error) {
