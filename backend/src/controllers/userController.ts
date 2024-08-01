@@ -97,6 +97,8 @@ export const getUserProfile = async (req: AuthenticatedRequest, res: Response): 
       _id: user._id,
       name: user.name,
       email: user.email,
+      age: user.age,          
+      location: user.location,
     });
   } else {
     return res.status(404).json({ message: 'User not found' });
