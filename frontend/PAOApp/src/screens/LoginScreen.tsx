@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   logo: {
-    width: 100, 
-    height: 66,
+    width: 150, 
+    height: 150,
     resizeMode: 'contain',
     alignSelf: 'center',
     marginBottom: 20,
