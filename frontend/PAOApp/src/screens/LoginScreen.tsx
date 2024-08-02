@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Image } from 'react-native';
-
+import logo from '../assets/images/paologo.jpg'
 const LoginScreen = () => {
   return (
     <View style={styles.container}>
-      <Image source={} style={styles.logo} />
+      <Image source={logo} style={styles.logo} />
       <Text style={styles.title}>Login</Text>
       <TextInput 
         style={styles.input}
