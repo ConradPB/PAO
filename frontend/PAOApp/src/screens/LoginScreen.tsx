@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Image } from 'react-native';
-import paologo from '../assets/images/paologo.jpg'; // Adjust path if necessary
+import paologo from '../assets/images/paologo.jpg';
 
 const LoginScreen = () => {
   return (
