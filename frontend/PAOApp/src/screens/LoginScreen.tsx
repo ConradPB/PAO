@@ -1,10 +1,11 @@
 import React from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; // Import useNavigation
+import { useNavigation, NavigationProp } from '@react-navigation/native';
 import paologo from '../assets/images/paologo.jpg';
+import { RootStackParamList } from '../navigation/AppNavigator'; 
 
 const LoginScreen = () => {
-  const navigation = useNavigation(); // Get navigation instance
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   return (
     <View style={styles.container}>
@@ -23,7 +24,7 @@ const LoginScreen = () => {
       <Button title="Login" onPress={() => {}} />
       <Button 
         title="Sign Up" 
-        onPress={() => navigation.navigate('SignUp')} // Navigate to SignUpScreen
+        onPress={() => navigation.navigate('SignUp')} 
       />
     </View>
   );
