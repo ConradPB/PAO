@@ -1,8 +1,11 @@
 import React from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Image } from 'react-native';
-import paologo from '../assets/images/PAOlogo.jpg';
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation
+import paologo from '../assets/images/paologo.jpg';
 
 const LoginScreen = () => {
+  const navigation = useNavigation(); // Get navigation instance
+
   return (
     <View style={styles.container}>
       <Image source={paologo} style={styles.logo} />
@@ -18,6 +21,10 @@ const LoginScreen = () => {
         secureTextEntry
       />
       <Button title="Login" onPress={() => {}} />
+      <Button 
+        title="Sign Up" 
+        onPress={() => navigation.navigate('SignUp')} // Navigate to SignUpScreen
+      />
     </View>
   );
 };
@@ -30,8 +37,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   logo: {
-    width: 150, 
-    height: 150,
+    width: 100, 
+    height: 66,
     resizeMode: 'contain',
     alignSelf: 'center',
     marginBottom: 20,
