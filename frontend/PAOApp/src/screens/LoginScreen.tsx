@@ -1,13 +1,17 @@
 import React from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../navigation/AppNavigator'; // Import the type
+
+// Define the type for navigation prop
+type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
 
 const LoginScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<LoginScreenNavigationProp>();
 
   return (
     <View style={styles.container}>
-      <Image source={require('../assets/images/PAOlogo.jpg')} style={styles.logo} />
       <Text style={styles.title}>Login</Text>
       <TextInput 
         style={styles.input}
@@ -20,13 +24,9 @@ const LoginScreen = () => {
         secureTextEntry
       />
       <Button title="Login" onPress={() => {}} />
-
-      <View style={styles.signupContainer}>
-        <Text style={styles.signupText}>Don't have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-          <Text style={styles.signupLink}>Sign up.</Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+        <Text style={styles.signupLink}>Don't have an account? Sign up.</Text>
+      </TouchableOpacity>
     </View>
   );
 };
