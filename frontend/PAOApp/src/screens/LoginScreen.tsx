@@ -24,7 +24,7 @@ const LoginScreen = () => {
         secureTextEntry
       />
       <Button title="Login" onPress={() => {}} />
-      <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+      <TouchableOpacity onPress={() => navigation.navigate('Welcome')}>
         <Text style={styles.signupLink}>Don't have an account? Sign up.</Text>
       </TouchableOpacity>
     </View>
