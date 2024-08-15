@@ -4,7 +4,7 @@ import LoginScreen from '../screens/LoginScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import HomeScreen from '../screens/HomeScreen';
-
+import ProfileScreen from '../screens/ProfileScreen';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -22,6 +22,8 @@ const AppNavigator = () => {
       <Stack.Screen name="SignUp" component={SignUpScreen} />
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
       <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Profile" component={ProfileScreen} />
+
 
       {/* Add other screens here */}
     </Stack.Navigator>
