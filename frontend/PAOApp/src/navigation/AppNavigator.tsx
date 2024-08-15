@@ -5,6 +5,7 @@ import SignUpScreen from '../screens/SignUpScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import MeetupsScreen from '../screens/MeetupsScreen';
 
 export type RootStackParamList = {
   Login: undefined;
