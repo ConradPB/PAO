@@ -11,6 +11,7 @@ export type RootStackParamList = {
   SignUp: undefined;
   Welcome: undefined;
   Home: undefined; 
+  Profile: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -23,7 +24,6 @@ const AppNavigator = () => {
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
-
 
       {/* Add other screens here */}
     </Stack.Navigator>
