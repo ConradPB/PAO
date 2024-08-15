@@ -15,6 +15,7 @@ export type RootStackParamList = {
   Home: undefined; 
   Profile: undefined;
   Meetups: undefined;
+  Discover: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -28,8 +29,7 @@ const AppNavigator = () => {
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="Meetups" component={MeetupsScreen} />
-
-
+      <Stack.Screen name="Discover" component={DiscoverScreen} />
 
       {/* Add other screens here */}
     </Stack.Navigator>
