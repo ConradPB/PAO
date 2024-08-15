@@ -7,6 +7,7 @@ import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import MeetupsScreen from '../screens/MeetupsScreen';
 import DiscoverScreen from '../screens/DiscoverScreen';
+import NotificationsScreen from '../screens/NotificationsScreen';
 
 export type RootStackParamList = {
   Login: undefined;
