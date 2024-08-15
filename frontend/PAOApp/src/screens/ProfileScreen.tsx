@@ -17,7 +17,7 @@ const ProfileScreen = () => {
     <View style={styles.container}>
       {/* Profile Image */}
       <TouchableOpacity>
-        <Image source={require('../assets/images/paologo.jpg')} style={styles.profileImage} />
+        <Image source={require('../assets/images/PAOlogo.jpg')} style={styles.profileImage} />
       </TouchableOpacity>
 
       {/* User's Name */}
