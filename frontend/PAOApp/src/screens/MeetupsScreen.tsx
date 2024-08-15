@@ -29,6 +29,31 @@ const MeetupsScreen = () => {
   );
 };
 
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#fff',
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  meetupItem: {
+    padding: 15,
+    backgroundColor: '#f9f9f9',
+    marginBottom: 10,
+    borderRadius: 10,
+  },
+  meetupTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  meetupDate: {
+    fontSize: 14,
+    color: '#888',
+  },
+});
 
 export default MeetupsScreen;
