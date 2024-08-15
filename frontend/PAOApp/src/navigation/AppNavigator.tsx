@@ -6,6 +6,7 @@ import WelcomeScreen from '../screens/WelcomeScreen';
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import MeetupsScreen from '../screens/MeetupsScreen';
+import DiscoverScreen from '../screens/DiscoverScreen';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -27,6 +28,7 @@ const AppNavigator = () => {
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="Meetups" component={MeetupsScreen} />
+
 
 
       {/* Add other screens here */}
