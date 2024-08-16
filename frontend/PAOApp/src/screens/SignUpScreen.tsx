@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
-import { RootStackParamList } from '../navigation/AppNavigator'; // Import the types from your navigator
 import paologo from '../assets/images/PAOlogo.jpg';
+import { RootStackParamList } from 'navigation/types';
 
 // Define the type for the navigation prop
 type SignUpScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'SignUp'>;
