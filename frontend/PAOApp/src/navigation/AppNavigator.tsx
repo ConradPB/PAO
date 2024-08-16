@@ -36,12 +36,6 @@ const AppNavigator = () => {
       <Stack.Screen name="PrivacySettings" component={PrivacySettingsScreen} />
       <Stack.Screen name="NotificationSettings" component={NotificationSettingsScreen} />
       <Stack.Screen name="LanguageRegionSettings" component={LanguageRegionSettingsScreen} />
-
-
-
-      
-
-
       {/* Add other screens here */}
     </Stack.Navigator>
   );
