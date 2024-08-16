@@ -11,6 +11,8 @@ import NotificationsScreen from '../screens/NotificationsScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import AccountSettingsScreen from '../screens/AccountSettingsScreen';
 import PrivacySettingsScreen from '../screens/PrivacySettingsScreen';
+import LanguageRegionSettingsScreen from '../screens/LanguageRegionSettingsScreen';
+
 
 import { RootStackParamList } from './types';
 
@@ -31,6 +33,8 @@ const AppNavigator = () => {
       <Stack.Screen name="Settings" component={SettingsScreen} />
       <Stack.Screen name="AccountSettings" component={AccountSettingsScreen} />
       <Stack.Screen name="PrivacySettings" component={PrivacySettingsScreen} />
+      <Stack.Screen name="LanguageRegionSettings" component={LanguageRegionSettingsScreen} />
+
 
 
       
