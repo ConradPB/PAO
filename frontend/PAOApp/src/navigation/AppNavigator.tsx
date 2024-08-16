@@ -8,6 +8,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import MeetupsScreen from '../screens/MeetupsScreen';
 import DiscoverScreen from '../screens/DiscoverScreen';
 import NotificationsScreen from '../screens/NotificationsScreen';
+import SettingsScreen from '../screens/SettingsScreen';
 import AccountSettingsScreen from '../screens/AccountSettingsScreen';
 
 export type RootStackParamList = {
@@ -20,6 +21,7 @@ export type RootStackParamList = {
   Discover: undefined;
   Notifications: undefined;
   AccountSettings: undefined;
+  Settings: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -35,6 +37,7 @@ const AppNavigator = () => {
       <Stack.Screen name="Meetups" component={MeetupsScreen} />
       <Stack.Screen name="Discover" component={DiscoverScreen} />
       <Stack.Screen name="Notifications" component={NotificationsScreen} />
+      <Stack.Screen name="Settings" component={SettingsScreen} />
       <Stack.Screen name="AccountSettings" component={AccountSettingsScreen} />
 
       
