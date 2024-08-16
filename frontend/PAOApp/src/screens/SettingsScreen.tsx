@@ -1,20 +1,17 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { RootStackParamList } from 'navigation/types';
-
-const Stack = createStackNavigator<RootStackParamList>();
-
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { RootStackParamList } from '../navigation/types'; 
 
 const SettingsScreen = () => {
-  const navigation = useNavigation();
+  // Typed useNavigation hook
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   return (
     <View style={styles.container}>
       <TouchableOpacity 
         style={styles.option}
-        onPress={() => navigation.navigate('AccountSettingsScreen')}
+        onPress={() => navigation.navigate('AccountSettings')}
       >
         <Text style={styles.optionText}>Account Settings</Text>
       </TouchableOpacity>
@@ -53,6 +50,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
+    marginBottom: 10,
   },
   optionText: {
     fontSize: 18,
