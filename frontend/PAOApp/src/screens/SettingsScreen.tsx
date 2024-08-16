@@ -1,6 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { RootStackParamList } from 'navigation/types';
+
+const Stack = createStackNavigator<RootStackParamList>();
+
 
 const SettingsScreen = () => {
   const navigation = useNavigation();
