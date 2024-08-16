@@ -9,7 +9,7 @@ const SettingsScreen = () => {
     <View style={styles.container}>
       <TouchableOpacity 
         style={styles.option}
-        onPress={() => navigation.navigate('AccountSettings')}
+        onPress={() => navigation.navigate('AccountSettingsScreen')}
       >
         <Text style={styles.optionText}>Account Settings</Text>
       </TouchableOpacity>
