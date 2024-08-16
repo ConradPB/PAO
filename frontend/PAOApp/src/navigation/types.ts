@@ -9,4 +9,5 @@ export type RootStackParamList = {
     Notifications: undefined;
     AccountSettings: undefined;
     Settings: undefined;
+    PrivacySettings: undefined;
   };
