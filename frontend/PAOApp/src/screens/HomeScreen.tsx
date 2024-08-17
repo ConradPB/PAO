@@ -1,7 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from 'navigation/types';
+import { useNavigation } from '@react-navigation/native';
 
-const HomeScreen = ({ navigation }) => {
+// Define the type for the navigation prop
+type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
+
+const HomeScreen = () => {
+  const navigation = useNavigation<HomeScreenNavigationProp>();
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Welcome to PÃO</Text>
