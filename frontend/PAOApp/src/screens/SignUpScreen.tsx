@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import paologo from '../assets/images/PAOlogo.jpg';
@@ -10,25 +10,41 @@ import api from 'services/api';
 type SignUpScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'SignUp'>;
 
 const SignUpScreen = () => {
-  const navigation = useNavigation<SignUpScreenNavigationProp>(); // Use the defined type
+  const navigation = useNavigation<SignUpScreenNavigationProp>();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [age, setAge] = useState('');
   const [location, setLocation] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSignUp = async () => {
+    if (!email || !password || !age || !location) {
+      Alert.alert('Error', 'Please fill in all fields.');
+      return;
+    }
+
     try {
+      setIsLoading(true);
       const response = await api.post('/auth/signup', {
         email,
         password,
         age,
         location,
       });
-      Alert.alert('Success', 'Account created successfully');
-      navigation.navigate('Login');
+
+      if (response.status === 201) {
+        Alert.alert('Success', 'Account created successfully!', [
+          { text: 'OK', onPress: () => navigation.navigate('Login') },
+        ]);
+      } else {
+        Alert.alert('Error', 'Failed to create account.');
+      }
     } catch (error) {
-      Alert.alert('Error', 'Failed to sign up');
+      console.error(error);
+      Alert.alert('Error', 'An error occurred during sign-up.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -36,37 +52,41 @@ const SignUpScreen = () => {
     <View style={styles.container}>
       <Image source={paologo} style={styles.logo} />
       <Text style={styles.title}>Sign Up</Text>
-      <TextInput 
+      <TextInput
         style={styles.input}
         placeholder="Email"
         keyboardType="email-address"
         value={email}
         onChangeText={setEmail}
+        autoCapitalize="none"
       />
-      <TextInput 
+      <TextInput
         style={styles.input}
         placeholder="Password"
         secureTextEntry
         value={password}
         onChangeText={setPassword}
+        autoCapitalize="none"
       />
-      <TextInput 
+      <TextInput
         style={styles.input}
         placeholder="Age"
         keyboardType="numeric"
         value={age}
         onChangeText={setAge}
       />
-      <TextInput 
+      <TextInput
         style={styles.input}
         placeholder="Location"
         value={location}
         onChangeText={setLocation}
       />
-      <Button title="Sign Up" onPress={() => { /* handle sign up logic */ }} />
+      <Button title={isLoading ? 'Signing Up...' : 'Sign Up'} onPress={handleSignUp} disabled={isLoading} />
 
       <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.linkText}>Already have an account? <Text style={styles.link}>Login</Text></Text>
+        <Text style={styles.linkText}>
+          Already have an account? <Text style={styles.link}>Login</Text>
+        </Text>
       </TouchableOpacity>
     </View>
   );
