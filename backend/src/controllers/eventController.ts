@@ -1,4 +1,3 @@
-
 import { Request, Response } from 'express';
 import Event from '../models/Event.js';
 import { AuthenticatedRequest } from '../types/custom.js';
