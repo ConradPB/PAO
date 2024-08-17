@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Button, StyleSheet, Image } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
-import { RootStackParamList } from '../navigation/AppNavigator'; 
+import { RootStackParamList } from 'navigation/types';
 import paologo from '../assets/images/PAOlogo.jpg';
 
 // Define the type for the navigation prop
