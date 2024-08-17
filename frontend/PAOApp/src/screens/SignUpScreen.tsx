@@ -4,6 +4,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import paologo from '../assets/images/PAOlogo.jpg';
 import { RootStackParamList } from 'navigation/types';
+import api from 'services/api';
 
 // Define the type for the navigation prop
 type SignUpScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'SignUp'>;
@@ -15,6 +16,21 @@ const SignUpScreen = () => {
   const [password, setPassword] = useState('');
   const [age, setAge] = useState('');
   const [location, setLocation] = useState('');
+
+  const handleSignUp = async () => {
+    try {
+      const response = await api.post('/auth/signup', {
+        email,
+        password,
+        age,
+        location,
+      });
+      Alert.alert('Success', 'Account created successfully');
+      navigation.navigate('Login');
+    } catch (error) {
+      Alert.alert('Error', 'Failed to sign up');
+    }
+  };
 
   return (
     <View style={styles.container}>
