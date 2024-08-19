@@ -12,11 +12,18 @@ import startCountdown from './utils/countdown.js';
 import passport from 'passport';
 import session from 'express-session';
 import './config/passportConfig.js';
+import cors from 'cors';
 
 // Connect to MongoDB
 connectToMongoDB();
 
 const app = express();
+
+app.use(cors({
+  origin: 'http://192.168.1.101:8081',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  allowedHeaders: 'Content-Type,Authorization'
+}))
 
 // Start the countdown timers
 startCountdown();
