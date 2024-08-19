@@ -26,8 +26,8 @@ const SignUpScreen = () => {
 
     try {
       setIsLoading(true);
-      const response = await api.post('/auth/signup', {
-        name,          // Include name in the request
+      const response = await api.post('/api/users/register', {
+        name,         
         email,
         password,
         age,
