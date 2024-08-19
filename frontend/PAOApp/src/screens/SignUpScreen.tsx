@@ -6,12 +6,12 @@ import paologo from '../assets/images/PAOlogo.jpg';
 import { RootStackParamList } from 'navigation/types';
 import api from 'services/api';
 
-// Define the type for the navigation prop
 type SignUpScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'SignUp'>;
 
 const SignUpScreen = () => {
   const navigation = useNavigation<SignUpScreenNavigationProp>();
 
+  const [name, setName] = useState('');  // State for name
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [age, setAge] = useState('');
@@ -19,14 +19,15 @@ const SignUpScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSignUp = async () => {
-    if (!email || !password || !age || !location) {
+    if (!name || !email || !password || !age || !location) {
       Alert.alert('Error', 'Please fill in all fields.');
       return;
     }
 
     try {
       setIsLoading(true);
-      const response = await api.post('/api/users/register', {
+      const response = await api.post('/auth/signup', {
+        name,          // Include name in the request
         email,
         password,
         age,
@@ -52,6 +53,13 @@ const SignUpScreen = () => {
     <View style={styles.container}>
       <Image source={paologo} style={styles.logo} />
       <Text style={styles.title}>Sign Up</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Name"
+        value={name}
+        onChangeText={setName}
+        autoCapitalize="words"
+      />
       <TextInput
         style={styles.input}
         placeholder="Email"
