@@ -11,7 +11,7 @@ type SignUpScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 
 const SignUpScreen = () => {
   const navigation = useNavigation<SignUpScreenNavigationProp>();
 
-  const [name, setName] = useState('');  // State for name
+  const [name, setName] = useState(''); 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [age, setAge] = useState('');
@@ -26,7 +26,7 @@ const SignUpScreen = () => {
 
     try {
       setIsLoading(true);
-      const response = await api.post('/api/users/register', {
+      const response = await api.post('/api/users', {
         name,         
         email,
         password,
