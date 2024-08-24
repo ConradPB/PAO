@@ -26,7 +26,7 @@ const SignUpScreen = () => {
 
     try {
       setIsLoading(true);
-      const response = await api.post('http://192.168.1.100:8081/', {
+      const response = await api.post('http://localhost:7000/api/users/register', {
         name,         
         email,
         password,
