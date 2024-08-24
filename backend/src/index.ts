@@ -20,7 +20,7 @@ connectToMongoDB();
 const app = express();
 
 app.use(cors({
-  origin: 'http://192.168.1.100:8081',
+  origin: 'http://localhost:7000/api/users/register',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   allowedHeaders: 'Content-Type,Authorization'
 }))
