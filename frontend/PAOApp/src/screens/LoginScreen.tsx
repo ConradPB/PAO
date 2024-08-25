@@ -6,7 +6,6 @@ import { RootStackParamList } from 'navigation/types';
 import api from 'services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Define the type for navigation prop
 type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
 
 const LoginScreen = () => {
@@ -24,24 +23,40 @@ const LoginScreen = () => {
 
     try {
       setIsLoading(true);
-      const response = await api.post('/auth/login', {
+      console.log('Attempting login with:', { email, password });
+      
+      const response = await api.post('http://10.0.2.2:7000/api/users/login', {
         email,
         password,
       });
 
-      if (response.status === 200) {
-        // Assuming the token is returned in the response
-        const token = response.data.token;
-        await AsyncStorage.setItem('authToken', token);
+      console.log('Login response:', response.data);
 
-        // Navigate to the Home screen or another protected screen
+      if (response.data && response.data.token) {
+        await AsyncStorage.setItem('authToken', response.data.token);
+        console.log('Token stored in AsyncStorage');
         navigation.navigate('Home');
       } else {
-        Alert.alert('Error', 'Invalid email or password.');
+        Alert.alert('Error', 'Invalid response from server. Token not received.');
       }
     } catch (error) {
-      console.error(error);
-      Alert.alert('Error', 'An error occurred during login.');
+      console.error('Login error:', error);
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error('Error data:', error.response.data);
+        console.error('Error status:', error.response.status);
+        console.error('Error headers:', error.response.headers);
+        Alert.alert('Error', error.response.data.message || 'An error occurred during login.');
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error('Error request:', error.request);
+        Alert.alert('Error', 'No response received from server. Please check your connection.');
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error('Error message:', error.message);
+        Alert.alert('Error', 'An unexpected error occurred.');
+      }
     } finally {
       setIsLoading(false);
     }
