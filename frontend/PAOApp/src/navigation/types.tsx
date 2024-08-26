@@ -12,4 +12,5 @@ export type RootStackParamList = {
     PrivacySettings: undefined;
     NotificationSettings: undefined;
     LanguageRegionSettings: undefined;
+    CreateEvent: undefined;
   };
