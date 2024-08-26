@@ -12,6 +12,7 @@ import startCountdown from './utils/countdown.js';
 import passport from 'passport';
 import session from 'express-session';
 import './config/passportConfig.js';
+import matchRoutes from './routes/matchRoutes.js';
 import cors from 'cors';
 
 // Connect to MongoDB
@@ -44,6 +45,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/auth', authRoutes);
+app.use('/api/match', matchRoutes);
 
 // Error handling middleware
 app.use(notFound);
