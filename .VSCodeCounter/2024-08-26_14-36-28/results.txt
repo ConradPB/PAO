@@ -1,0 +1,106 @@
+Date : 2024-08-26 14:36:28
+Directory : /Users/Coco/Desktop/Programming/Biz/react-native/PAO
+Total : 55 files,  14635 codes, 43 comments, 292 blanks, all 14970 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| JSON               |          5 |     12,937 |          0 |          5 |     12,942 |
+| TypeScript JSX     |         21 |        876 |         18 |        118 |      1,012 |
+| TypeScript         |         23 |        744 |         25 |        142 |        911 |
+| Markdown           |          2 |         43 |          0 |         23 |         66 |
+| JSON with Comments |          2 |         27 |          0 |          2 |         29 |
+| JavaScript         |          1 |          6 |          0 |          1 |          7 |
+| Ignore             |          1 |          2 |          0 |          1 |          3 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                              | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                 |         55 |     14,635 |         43 |        292 |     14,970 |
+| . (Files)                                                                                                         |          1 |         38 |          0 |         18 |         56 |
+| backend                                                                                                           |         23 |        778 |         25 |        139 |        942 |
+| backend (Files)                                                                                                   |          5 |         75 |          0 |          9 |         84 |
+| backend/src                                                                                                       |         18 |        703 |         25 |        130 |        858 |
+| backend/src (Files)                                                                                               |          2 |         69 |         10 |         19 |         98 |
+| backend/src/config                                                                                                |          2 |         63 |          0 |         10 |         73 |
+| backend/src/controllers                                                                                           |          3 |        259 |          6 |         44 |        309 |
+| backend/src/middleware                                                                                            |          2 |         42 |          0 |         11 |         53 |
+| backend/src/models                                                                                                |          3 |        119 |          0 |         15 |        134 |
+| backend/src/routes                                                                                                |          4 |        130 |          9 |         24 |        163 |
+| backend/src/types                                                                                                 |          1 |          5 |          0 |          2 |          7 |
+| backend/src/utils                                                                                                 |          1 |         16 |          0 |          5 |         21 |
+| frontend                                                                                                          |         31 |     13,819 |         18 |        135 |     13,972 |
+| frontend/PAOApp                                                                                                   |         31 |     13,819 |         18 |        135 |     13,972 |
+| frontend/PAOApp (Files)                                                                                           |          7 |     12,932 |          0 |         12 |     12,944 |
+| frontend/PAOApp/src                                                                                               |         24 |        887 |         18 |        123 |      1,028 |
+| frontend/PAOApp/src/components                                                                                    |          3 |          0 |          0 |          3 |          3 |
+| frontend/PAOApp/src/navigation                                                                                    |          4 |         52 |          1 |          9 |         62 |
+| frontend/PAOApp/src/screens                                                                                       |         13 |        814 |         17 |        104 |        935 |
+| frontend/PAOApp/src/services                                                                                      |          1 |         21 |          0 |          4 |         25 |
+| frontend/PAOApp/src/styles                                                                                        |          3 |          0 |          0 |          3 |          3 |
++-------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                                          | language           | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/README.md                                                    | Markdown           |         38 |          0 |         18 |         56 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/backend/.prettierignore                                      | Ignore             |          2 |          0 |          1 |          3 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/backend/.prettierrc                                          | JSON               |          7 |          0 |          1 |          8 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/backend/README.md                                            | Markdown           |          5 |          0 |          5 |         10 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/backend/package.json                                         | JSON               |         48 |          0 |          1 |         49 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/backend/src/config/db.ts                                     | TypeScript         |         20 |          0 |          4 |         24 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/backend/src/config/passportConfig.ts                         | TypeScript         |         43 |          0 |          6 |         49 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/backend/src/controllers/eventController.ts                   | TypeScript         |         76 |          0 |          9 |         85 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/backend/src/controllers/taskController.ts                    | TypeScript         |         68 |          0 |         10 |         78 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/backend/src/controllers/userController.ts                    | TypeScript         |        115 |          6 |         25 |        146 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/backend/src/index.ts                                         | TypeScript         |         52 |         10 |         15 |         77 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/backend/src/middleware/authMiddleware.ts                     | TypeScript         |         22 |          0 |          7 |         29 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/backend/src/middleware/errorMiddleware.ts                    | TypeScript         |         20 |          0 |          4 |         24 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/backend/src/models/Event.ts                                  | TypeScript         |         45 |          0 |          5 |         50 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/backend/src/models/Task.ts                                   | TypeScript         |         33 |          0 |          5 |         38 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/backend/src/models/User.ts                                   | TypeScript         |         41 |          0 |          5 |         46 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/backend/src/node-cron.d.ts                                   | TypeScript         |         17 |          0 |          4 |         21 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/backend/src/routes/authRoutes.ts                             | TypeScript         |         26 |          9 |          7 |         42 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/backend/src/routes/eventRoutes.ts                            | TypeScript         |         39 |          0 |          5 |         44 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/backend/src/routes/taskRoutes.ts                             | TypeScript         |         27 |          0 |          5 |         32 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/backend/src/routes/userRoutes.ts                             | TypeScript         |         38 |          0 |          7 |         45 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/backend/src/types/custom.d.ts                                | TypeScript         |          5 |          0 |          2 |          7 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/backend/src/utils/countdown.ts                               | TypeScript         |         16 |          0 |          5 |         21 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/backend/tsconfig.json                                        | JSON with Comments |         13 |          0 |          1 |         14 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/App.tsx                                      | TypeScript JSX     |         10 |          0 |          2 |         12 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/app.json                                     | JSON               |         27 |          0 |          1 |         28 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/babel.config.js                              | JavaScript         |          6 |          0 |          1 |          7 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/images.d.ts                                  | TypeScript         |         20 |          0 |          5 |         25 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/package-lock.json                            | JSON               |     12,812 |          0 |          1 |     12,813 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/package.json                                 | JSON               |         43 |          0 |          1 |         44 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/components/Button.tsx                    | TypeScript JSX     |          0 |          0 |          1 |          1 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/components/Header.tsx                    | TypeScript JSX     |          0 |          0 |          1 |          1 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/components/Input.tsx                     | TypeScript JSX     |          0 |          0 |          1 |          1 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/navigation/AppNavigator.tsx              | TypeScript JSX     |         37 |          1 |          7 |         45 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/navigation/AuthNavigator.tsx             | TypeScript JSX     |          0 |          0 |          1 |          1 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/navigation/index.tsx                     | TypeScript JSX     |          0 |          0 |          1 |          1 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/navigation/types.tsx                     | TypeScript JSX     |         15 |          0 |          0 |         15 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/screens/AccountSettingsScreen.tsx        | TypeScript JSX     |        129 |          0 |         16 |        145 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/screens/DiscoverScreen.tsx               | TypeScript JSX     |         52 |          2 |          6 |         60 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/screens/HomeScreen.tsx                   | TypeScript JSX     |         56 |          1 |          7 |         64 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/screens/LanguageRegionSettingsScreen.tsx | TypeScript JSX     |         20 |          0 |          4 |         24 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/screens/LoginScreen.tsx                  | TypeScript JSX     |        109 |          0 |         13 |        122 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/screens/MeetupsScreen.tsx                | TypeScript JSX     |         52 |          2 |          5 |         59 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/screens/NotificationSettingsScreen.tsx   | TypeScript JSX     |         20 |          0 |          4 |         24 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/screens/NotificationsScreen.tsx          | TypeScript JSX     |         52 |          2 |          7 |         61 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/screens/PrivacySettingsScreen.tsx        | TypeScript JSX     |         20 |          0 |          4 |         24 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/screens/ProfileScreen.tsx                | TypeScript JSX     |         71 |          8 |         11 |         90 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/screens/SettingsScreen.tsx               | TypeScript JSX     |         52 |          1 |          8 |         61 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/screens/SignUpScreen.tsx                 | TypeScript JSX     |        128 |          0 |         11 |        139 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/screens/WelcomeScreen.tsx                | TypeScript JSX     |         53 |          1 |          8 |         62 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/services/api.ts                          | TypeScript         |         21 |          0 |          4 |         25 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/styles/colors.ts                         | TypeScript         |          0 |          0 |          1 |          1 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/styles/globalStyles.ts                   | TypeScript         |          0 |          0 |          1 |          1 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/styles/typography.ts                     | TypeScript         |          0 |          0 |          1 |          1 |
+| /Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/tsconfig.json                                | JSON with Comments |         14 |          0 |          1 |         15 |
+| Total                                                                                                             |                    |     14,635 |         43 |        292 |     14,970 |
++-------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+

@@ -1,0 +1,16 @@
+"filename", "language", "TypeScript", "TypeScript JSX", "JSON", "comment", "blank", "total"
+"/Users/Coco/Desktop/Programming/Biz/react-native/PAO/backend/src/controllers/eventController.ts", "TypeScript", 0, 0, 0, 0, -1, -1
+"/Users/Coco/Desktop/Programming/Biz/react-native/PAO/backend/src/index.ts", "TypeScript", 7, 0, 0, 0, 1, 8
+"/Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/package-lock.json", "JSON", 0, 0, -1, 0, 0, -1
+"/Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/navigation/AppNavigator.tsx", "TypeScript JSX", 0, 1, 0, 0, 0, 1
+"/Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/navigation/types.tsx", "TypeScript JSX", 0, 15, 0, 0, 0, 15
+"/Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/screens/AccountSettingsScreen.tsx", "TypeScript JSX", 0, 129, 0, 0, 16, 145
+"/Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/screens/HomeScreen.tsx", "TypeScript JSX", 0, 5, 0, 1, 2, 8
+"/Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/screens/LanguageRegionSettingsScreen.tsx", "TypeScript JSX", 0, 20, 0, 0, 4, 24
+"/Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/screens/LoginScreen.tsx", "TypeScript JSX", 0, 41, 0, -1, 7, 47
+"/Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/screens/NotificationSettingsScreen.tsx", "TypeScript JSX", 0, 20, 0, 0, 4, 24
+"/Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/screens/PrivacySettingsScreen.tsx", "TypeScript JSX", 0, 20, 0, 0, 4, 24
+"/Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/screens/SettingsScreen.tsx", "TypeScript JSX", 0, 52, 0, 1, 8, 61
+"/Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/screens/SignUpScreen.tsx", "TypeScript JSX", 0, 42, 0, -1, 3, 44
+"/Users/Coco/Desktop/Programming/Biz/react-native/PAO/frontend/PAOApp/src/services/api.ts", "TypeScript", 21, 0, 0, 0, 4, 25
+"Total", "-", 28, 345, -1, 0, 52, 424
