@@ -20,7 +20,7 @@ const LoginScreen = () => {
       Alert.alert('Error', 'Please fill in both email and password.');
       return;
     }
-
+  
     try {
       setIsLoading(true);
       console.log('Attempting login with:', { email, password });
@@ -29,31 +29,32 @@ const LoginScreen = () => {
         email,
         password,
       });
-
+  
       console.log('Login response:', response.data);
-
+  
       if (response.data && response.data.token) {
-        await AsyncStorage.setItem('authToken', response.data.token);
-        console.log('Token stored in AsyncStorage');
-        navigation.navigate('Home');
+        try {
+          await AsyncStorage.setItem('authToken', response.data.token);
+          console.log('Token stored in AsyncStorage');
+          navigation.navigate('Home');
+        } catch (storageError) {
+          console.error('Error storing token in AsyncStorage:', storageError);
+          Alert.alert('Error', 'Failed to store token.');
+        }
       } else {
         Alert.alert('Error', 'Invalid response from server. Token not received.');
       }
     } catch (error) {
       console.error('Login error:', error);
       if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
         console.error('Error data:', error.response.data);
         console.error('Error status:', error.response.status);
         console.error('Error headers:', error.response.headers);
         Alert.alert('Error', error.response.data.message || 'An error occurred during login.');
       } else if (error.request) {
-        // The request was made but no response was received
         console.error('Error request:', error.request);
         Alert.alert('Error', 'No response received from server. Please check your connection.');
       } else {
-        // Something happened in setting up the request that triggered an Error
         console.error('Error message:', error.message);
         Alert.alert('Error', 'An unexpected error occurred.');
       }
@@ -61,6 +62,7 @@ const LoginScreen = () => {
       setIsLoading(false);
     }
   };
+  
 
   return (
     <View style={styles.container}>
