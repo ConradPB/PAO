@@ -8,6 +8,8 @@ export interface IUser extends Document {
   password?: string;
   age?: number;       // Added age
   location?: string;  // Added location
+  faith?: string; // Added faith
+  isAvailableForMeal: boolean;
 }
 
 const userSchema: Schema = new Schema(
@@ -34,6 +36,14 @@ const userSchema: Schema = new Schema(
     location: {
       type: String, 
     },
+    faith: {
+      type: String,
+      required: false,
+  },
+    isAvailableForMeal: {
+      type: Boolean,
+      default: false,
+  },
   },
   {
     timestamps: true,
