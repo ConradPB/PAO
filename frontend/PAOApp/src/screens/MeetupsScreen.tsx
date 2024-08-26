@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, ActivityIndicator, StyleSheet, RefreshControl, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, StyleSheet, RefreshControl, TouchableOpacity, Alert } from 'react-native';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Event {
   _id: string;
   title: string;
   description: string;
-  date: string; // Using string because it will be received as ISO string from the backend
+  date: string; // ISO string format
   recurring: boolean;
   frequency?: 'daily' | 'weekly' | 'monthly';
 }
@@ -21,14 +22,25 @@ const UpcomingMeetupsScreen: React.FC = () => {
   const fetchEvents = async () => {
     setLoading(true);
     setError(null);
+
     try {
-      const response = await axios.get('/api/events', {
+      const token = await AsyncStorage.getItem('authToken');
+
+      if (!token) {
+        Alert.alert('Error', 'You are not logged in. Please log in first.');
+        return;
+      }
+
+      const response = await axios.get('http://10.0.2.2:7000/api/events', {
         params: {
           page: 1,
           limit: 10
         },
-        withCredentials: true,  // Include credentials if needed
+        headers: {
+          Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+        },
       });
+
       setEvents(response.data);
     } catch (err) {
       console.error(err);
@@ -55,6 +67,11 @@ const UpcomingMeetupsScreen: React.FC = () => {
       <Text style={styles.eventTitle}>{item.title}</Text>
       <Text style={styles.eventDescription}>{item.description}</Text>
       <Text style={styles.eventDate}>{new Date(item.date).toLocaleDateString()}</Text>
+      {item.recurring && (
+        <Text style={styles.eventRecurring}>
+          Recurring: {item.frequency ? item.frequency.charAt(0).toUpperCase() + item.frequency.slice(1) : 'N/A'}
+        </Text>
+      )}
     </TouchableOpacity>
   );
 
@@ -64,7 +81,9 @@ const UpcomingMeetupsScreen: React.FC = () => {
       <Text style={styles.header}>Upcoming Meetups</Text>
 
       {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
       ) : error ? (
         <Text style={styles.errorText}>{error}</Text>
       ) : (
@@ -87,44 +106,58 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f9fa',
   },
   header: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: 'bold',
     marginBottom: 16,
+    color: '#333',
   },
   eventCard: {
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
     padding: 16,
-    borderRadius: 8,
+    borderRadius: 10,
     marginBottom: 10,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 2,
+    shadowRadius: 6,
+    elevation: 3,
   },
   eventTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
+    color: '#007bff',
   },
   eventDescription: {
-    marginTop: 4,
+    marginTop: 6,
     fontSize: 14,
     color: '#6c757d',
   },
   eventDate: {
     marginTop: 8,
+    fontSize: 14,
+    color: '#495057',
+  },
+  eventRecurring: {
+    marginTop: 8,
     fontSize: 12,
-    color: '#007bff',
+    color: '#28a745',
   },
   errorText: {
     color: 'red',
     textAlign: 'center',
     marginTop: 20,
+    fontSize: 16,
   },
   emptyText: {
     textAlign: 'center',
     marginTop: 20,
     color: '#6c757d',
+    fontSize: 16,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
