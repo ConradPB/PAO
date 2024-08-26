@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Switch, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, Switch, StyleSheet, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const EventCreationScreen = () => {
   const [title, setTitle] = useState('');
@@ -9,25 +10,51 @@ const EventCreationScreen = () => {
   const [date, setDate] = useState('');
   const [recurring, setRecurring] = useState(false);
   const [frequency, setFrequency] = useState('daily'); // Default frequency
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleCreateEvent = async () => {
     try {
-      const response = await axios.post('/api/events', {
-        title,
-        description,
-        date,
-        recurring,
-        frequency,
-      });
+      const token = await AsyncStorage.getItem('authToken');
+      
+      if (!token) {
+        Alert.alert('Error', 'You are not logged in. Please log in first.');
+        return;
+      }
+
+      setIsLoading(true);
+
+      const response = await axios.post(
+        'http://10.0.2.2:7000/api/events',
+        {
+          title,
+          description,
+          date,
+          recurring,
+          frequency,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+          },
+        }
+      );
 
       if (response.status === 201) {
-        alert('Event created successfully!');
+        Alert.alert('Success', 'Event created successfully!');
+        // Optionally reset form fields or navigate to another screen
+        setTitle('');
+        setDescription('');
+        setDate('');
+        setRecurring(false);
+        setFrequency('daily');
       } else {
-        alert('Failed to create event.');
+        Alert.alert('Error', 'Failed to create event.');
       }
     } catch (error) {
-      console.error(error);
-      alert('An error occurred while creating the event.');
+      console.error('Error creating event:', error);
+      Alert.alert('Error', 'An error occurred while creating the event.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -83,7 +110,7 @@ const EventCreationScreen = () => {
         </View>
       )}
 
-      <Button title="Create Event" onPress={handleCreateEvent} />
+      <Button title={isLoading ? 'Creating...' : 'Create Event'} onPress={handleCreateEvent} disabled={isLoading} />
     </View>
   );
 };
@@ -115,8 +142,6 @@ const styles = StyleSheet.create({
   picker: {
     height: 50,
     width: '100%',
-    borderWidth: 1,
-    borderColor: '#ccc',
   },
 });
 
