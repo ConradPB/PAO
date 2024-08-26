@@ -19,6 +19,10 @@ const HomeScreen = () => {
         title="Profile"
         onPress={() => navigation.navigate('Profile')}
       />
+      <Button
+      title="Meal Match"
+      onPress={() => navigation.navigate('MealMatch')}
+      />
       <Button 
         title="Create New Event"
         onPress={() => navigation.navigate('CreateEvent')}
