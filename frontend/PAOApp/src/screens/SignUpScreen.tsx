@@ -16,7 +16,7 @@ const SignUpScreen = () => {
   const [password, setPassword] = useState('');
   const [age, setAge] = useState('');
   const [location, setLocation] = useState('');
-  const [faith, setFaith] = useState(''); // New state for faith
+  const [faith, setFaith] = useState(''); 
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSignUp = async () => {
@@ -33,7 +33,7 @@ const SignUpScreen = () => {
         password,
         age,
         location,
-        faith, // Include faith in the request
+        faith, 
       });
 
       if (response.status === 201) {
