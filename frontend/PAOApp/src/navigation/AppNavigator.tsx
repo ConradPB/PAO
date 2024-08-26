@@ -5,6 +5,7 @@ import SignUpScreen from '../screens/SignUpScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import MeetupsScreen from '../screens/MeetupsScreen';
+import MealMatchScreen from 'screens/MealMatchScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import DiscoverScreen from '../screens/DiscoverScreen';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -32,6 +33,7 @@ const AppNavigator = () => {
       <Stack.Screen name="Meetups" component={MeetupsScreen} />
       <Stack.Screen name="Discover" component={DiscoverScreen} />
       <Stack.Screen name="Settings" component={SettingsScreen} />
+      <Stack.Screen name="MealMatch" component={MealMatchScreen} />
       <Stack.Screen name="Notifications" component={NotificationsScreen} />
       <Stack.Screen name="AccountSettings" component={AccountSettingsScreen} />
       <Stack.Screen name="PrivacySettings" component={PrivacySettingsScreen} />

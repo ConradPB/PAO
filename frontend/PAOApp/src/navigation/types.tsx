@@ -7,10 +7,13 @@ export type RootStackParamList = {
     Meetups: undefined;
     Discover: undefined;
     Settings: undefined;
+    MealMatch: undefined;
+    CreateEvent: undefined;
     Notifications: undefined;
     AccountSettings: undefined;
     PrivacySettings: undefined;
     NotificationSettings: undefined;
     LanguageRegionSettings: undefined;
-    CreateEvent: undefined;
+    
+
   };
