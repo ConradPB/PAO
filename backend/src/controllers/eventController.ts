@@ -4,10 +4,16 @@ import { AuthenticatedRequest } from '../types/custom.js';
 
 export const getEvents = async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
   try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+
     const events = await Event.find({ 
       user: req.user?._id, 
       date: { $gte: new Date() } // fetch only future events
-     });
+     }).skip(skip).limit(limit);
+
     return res.json(events);
   } catch (error) {
     console.error(error);
