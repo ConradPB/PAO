@@ -10,16 +10,17 @@ type SignUpScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 
 
 const SignUpScreen = () => {
   const navigation = useNavigation<SignUpScreenNavigationProp>();
-
-  const [name, setName] = useState(''); 
+  
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [age, setAge] = useState('');
   const [location, setLocation] = useState('');
+  const [faith, setFaith] = useState(''); // New state for faith
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSignUp = async () => {
-    if (!name || !email || !password || !age || !location) {
+    if (!name || !email || !password || !age || !location || !faith) {
       Alert.alert('Error', 'Please fill in all fields.');
       return;
     }
@@ -27,11 +28,12 @@ const SignUpScreen = () => {
     try {
       setIsLoading(true);
       const response = await api.post('http://10.0.2.2:7000/api/users/register', {
-        name,         
+        name,
         email,
         password,
         age,
         location,
+        faith, // Include faith in the request
       });
 
       if (response.status === 201) {
@@ -89,8 +91,14 @@ const SignUpScreen = () => {
         value={location}
         onChangeText={setLocation}
       />
+      <TextInput
+        style={styles.input}
+        placeholder="Faith"
+        value={faith}
+        onChangeText={setFaith}
+      />
       <Button title={isLoading ? 'Signing Up...' : 'Sign Up'} onPress={handleSignUp} disabled={isLoading} />
-
+      
       <TouchableOpacity onPress={() => navigation.navigate('Login')}>
         <Text style={styles.linkText}>
           Already have an account? <Text style={styles.link}>Login</Text>
