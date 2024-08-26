@@ -20,7 +20,7 @@ const CreateEventScreen: React.FC = () => {
     }
 
     try {
-      const response = await axios.post('http://your-api-url/api/events', {
+      const response = await axios.post('http://10.0.2.2:7000/api/events', {
         title,
         description,
         date,
