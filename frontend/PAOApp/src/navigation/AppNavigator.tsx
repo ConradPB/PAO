@@ -16,6 +16,7 @@ import LanguageRegionSettingsScreen from '../screens/LanguageRegionSettingsScree
 
 
 import { RootStackParamList } from './types';
+import CreateEventScreen from 'screens/EventCreationScreen';
 
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -36,6 +37,8 @@ const AppNavigator = () => {
       <Stack.Screen name="PrivacySettings" component={PrivacySettingsScreen} />
       <Stack.Screen name="NotificationSettings" component={NotificationSettingsScreen} />
       <Stack.Screen name="LanguageRegionSettings" component={LanguageRegionSettingsScreen} />
+      <Stack.Screen name="CreateEvent" component={CreateEventScreen} options={{ title: 'Create Event' }} />
+
       {/* Add other screens here */}
     </Stack.Navigator>
   );
