@@ -53,7 +53,7 @@ const ProfileScreen = () => {
       const token = await AsyncStorage.getItem('authToken');
       if (token) {
         const response = await api.put(
-          '/api/users/update',
+          '/api/users/profile',
           { name, email },
           { headers: { Authorization: `Bearer ${token}` } }
         );
