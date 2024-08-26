@@ -1,5 +1,3 @@
-// screens/MealMatchScreen.tsx
-
 import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet, Switch, FlatList } from 'react-native';
 import api from 'services/api';
@@ -48,5 +46,25 @@ const MealMatchScreen = () => {
   );
 };
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+  },
+  title: {
+    fontSize: 24,
+    marginBottom: 20,
+  },
+  availabilityContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  matchItem: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+});
 
 export default MealMatchScreen;
