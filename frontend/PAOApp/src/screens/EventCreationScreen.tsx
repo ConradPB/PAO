@@ -12,7 +12,7 @@ const EventCreationScreen = () => {
 
   const handleCreateEvent = async () => {
     try {
-      const response = await axios.post('http://your-backend-url/api/events', {
+      const response = await axios.post('/api/events', {
         title,
         description,
         date,
