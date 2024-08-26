@@ -3,12 +3,18 @@ import { View, Text, Button, StyleSheet, Switch, FlatList, Alert } from 'react-n
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import api from 'services/api';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from 'navigation/types';
+
+type MealMatchScreenNavigationProp = StackNavigationProp<RootStackParamList, 'MealMatch'>;
+
 
 const MealMatchScreen = () => {
+  const navigation = useNavigation<MealMatchScreenNavigationProp>();
+
   const [isAvailable, setIsAvailable] = useState(false);
   const [matches, setMatches] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const navigation = useNavigation();
 
   useEffect(() => {
     checkLoginStatus();
