@@ -4,7 +4,10 @@ import { AuthenticatedRequest } from '../types/custom.js';
 
 export const getEvents = async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
   try {
-    const events = await Event.find({ user: req.user?._id });
+    const events = await Event.find({ 
+      user: req.user?._id, 
+      date: { $gte: new Date() } // fetch only future events
+     });
     return res.json(events);
   } catch (error) {
     console.error(error);
