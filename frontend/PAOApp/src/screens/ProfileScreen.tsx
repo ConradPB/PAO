@@ -1,61 +1,96 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, Alert, ActivityIndicator } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from 'navigation/types';
+import api from 'services/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Profile'>;
 
 const ProfileScreen = () => {
-  // State variables to hold the user's profile data
-  const [name, setName] = useState('John Doe');
-  const [email, setEmail] = useState('johndoe@example.com');
-  const [age, setAge] = useState('25');
-  const [location, setLocation] = useState('New York, NY');
+  const navigation = useNavigation<ProfileScreenNavigationProp>();
 
-  // Handler for saving changes 
-  const handleSave = () => {
-    console.log('Profile updated:', { name, email, age, location });
+  const [userData, setUserData] = useState<{ name: string; email: string } | null>(null);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [updating, setUpdating] = useState(false);
+
+  // Fetch user data when the component mounts
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = await AsyncStorage.getItem('authToken');
+        if (token) {
+          const response = await api.get('/api/users/profile', {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          setUserData(response.data);
+          setName(response.data.name);
+          setEmail(response.data.email);
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        Alert.alert('Error', 'Failed to load user data.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  // Handle profile update
+  const handleUpdateProfile = async () => {
+    if (!name || !email) {
+      Alert.alert('Error', 'Please fill in all fields.');
+      return;
+    }
+
+    try {
+      setUpdating(true);
+      const token = await AsyncStorage.getItem('authToken');
+      if (token) {
+        const response = await api.put(
+          '/api/users/update',
+          { name, email },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        setUserData(response.data);
+        Alert.alert('Success', 'Profile updated successfully.');
+      }
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      Alert.alert('Error', 'Failed to update profile.');
+    } finally {
+      setUpdating(false);
+    }
   };
+
+  if (loading) {
+    return <ActivityIndicator size="large" color="#0000ff" />;
+  }
 
   return (
     <View style={styles.container}>
-      {/* Profile Image */}
-      <TouchableOpacity>
-        <Image source={require('../assets/images/PAOlogo.jpg')} style={styles.profileImage} />
-      </TouchableOpacity>
-
-      {/* User's Name */}
-      <Text style={styles.label}>Name</Text>
+      <Text style={styles.title}>Profile</Text>
       <TextInput
         style={styles.input}
+        placeholder="Name"
         value={name}
         onChangeText={setName}
       />
-
-      {/* User's Email */}
-      <Text style={styles.label}>Email</Text>
       <TextInput
         style={styles.input}
+        placeholder="Email"
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
+        autoCapitalize="none"
       />
-
-      {/* User's Age */}
-      <Text style={styles.label}>Age</Text>
-      <TextInput
-        style={styles.input}
-        value={age}
-        onChangeText={setAge}
-        keyboardType="numeric"
-      />
-
-      {/* User's Location */}
-      <Text style={styles.label}>Location</Text>
-      <TextInput
-        style={styles.input}
-        value={location}
-        onChangeText={setLocation}
-      />
-
-      {/* Save Button */}
-      <Button title="Save Changes" onPress={handleSave} />
+      <Button title={updating ? 'Updating...' : 'Update Profile'} onPress={handleUpdateProfile} disabled={updating} />
     </View>
   );
 };
@@ -64,21 +99,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
+    justifyContent: 'center',
   },
-  profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    alignSelf: 'center',
+  title: {
+    fontSize: 24,
     marginBottom: 20,
-  },
-  label: {
-    fontSize: 16,
-    marginBottom: 8,
+    textAlign: 'center',
   },
   input: {
-    height: 40,
+    height: 50,
     borderColor: '#ccc',
     borderWidth: 1,
     marginBottom: 20,
