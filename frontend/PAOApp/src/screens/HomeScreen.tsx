@@ -20,6 +20,10 @@ const HomeScreen = () => {
         onPress={() => navigation.navigate('Profile')}
       />
       <Button 
+        title="Create New Event"
+        onPress={() => navigation.navigate('CreateEvent')}
+      />
+      <Button 
         title="Upcoming Meetups"
         onPress={() => navigation.navigate('Meetups')}
       />
