@@ -1,26 +1,18 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, Switch, StyleSheet } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import axios from 'axios';
 
-const CreateEventScreen: React.FC = () => {
+const EventCreationScreen = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState('');
   const [recurring, setRecurring] = useState(false);
-  const [frequency, setFrequency] = useState<string | null>(null);
+  const [frequency, setFrequency] = useState('daily'); // Default frequency
 
-  const handleFrequencySelect = (selectedFrequency: string) => {
-    setFrequency(selectedFrequency);
-  };
-
-  const handleSubmit = async () => {
-    if (!title || !description || !date) {
-      Alert.alert('Please fill out all fields');
-      return;
-    }
-
+  const handleCreateEvent = async () => {
     try {
-      const response = await axios.post('http://10.0.2.2:7000/api/events', {
+      const response = await axios.post('http://your-backend-url/api/events', {
         title,
         description,
         date,
@@ -29,22 +21,19 @@ const CreateEventScreen: React.FC = () => {
       });
 
       if (response.status === 201) {
-        Alert.alert('Event created successfully');
-        setTitle('');
-        setDescription('');
-        setDate('');
-        setRecurring(false);
-        setFrequency(null);
+        alert('Event created successfully!');
+      } else {
+        alert('Failed to create event.');
       }
     } catch (error) {
       console.error(error);
-      Alert.alert('Error creating event');
+      alert('An error occurred while creating the event.');
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Event Title</Text>
+      <Text style={styles.label}>Title:</Text>
       <TextInput
         style={styles.input}
         value={title}
@@ -52,15 +41,16 @@ const CreateEventScreen: React.FC = () => {
         placeholder="Enter event title"
       />
 
-      <Text style={styles.label}>Description</Text>
+      <Text style={styles.label}>Description:</Text>
       <TextInput
         style={styles.input}
         value={description}
         onChangeText={setDescription}
         placeholder="Enter event description"
+        multiline
       />
 
-      <Text style={styles.label}>Date</Text>
+      <Text style={styles.label}>Date:</Text>
       <TextInput
         style={styles.input}
         value={date}
@@ -68,83 +58,66 @@ const CreateEventScreen: React.FC = () => {
         placeholder="Enter event date"
       />
 
-      <View style={styles.frequencyContainer}>
-        <Text style={styles.label}>Recurring Event?</Text>
-        <TouchableOpacity onPress={() => setRecurring(!recurring)}>
-          <Text style={styles.buttonText}>{recurring ? 'Yes' : 'No'}</Text>
-        </TouchableOpacity>
+      <View style={styles.switchContainer}>
+        <Text style={styles.label}>Recurring:</Text>
+        <Switch
+          value={recurring}
+          onValueChange={setRecurring}
+          thumbColor={recurring ? '#f5dd4b' : '#f4f3f4'}
+          trackColor={{ false: '#767577', true: '#81b0ff' }}
+        />
       </View>
 
       {recurring && (
-        <View style={styles.frequencyButtons}>
-          <TouchableOpacity
-            style={[styles.frequencyButton, frequency === 'daily' && styles.selectedButton]}
-            onPress={() => handleFrequencySelect('daily')}
+        <View style={styles.pickerContainer}>
+          <Text style={styles.label}>Frequency:</Text>
+          <Picker
+            selectedValue={frequency}
+            style={styles.picker}
+            onValueChange={(itemValue) => setFrequency(itemValue)}
           >
-            <Text style={styles.buttonText}>Daily</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.frequencyButton, frequency === 'weekly' && styles.selectedButton]}
-            onPress={() => handleFrequencySelect('weekly')}
-          >
-            <Text style={styles.buttonText}>Weekly</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.frequencyButton, frequency === 'monthly' && styles.selectedButton]}
-            onPress={() => handleFrequencySelect('monthly')}
-          >
-            <Text style={styles.buttonText}>Monthly</Text>
-          </TouchableOpacity>
+            <Picker.Item label="Daily" value="daily" />
+            <Picker.Item label="Weekly" value="weekly" />
+            <Picker.Item label="Monthly" value="monthly" />
+          </Picker>
         </View>
       )}
 
-      <Button title="Create Event" onPress={handleSubmit} />
+      <Button title="Create Event" onPress={handleCreateEvent} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 16,
+    padding: 20,
     backgroundColor: '#fff',
   },
   label: {
-    marginBottom: 8,
     fontSize: 16,
-    fontWeight: 'bold',
+    marginVertical: 8,
   },
   input: {
-    height: 40,
-    borderColor: '#ccc',
     borderWidth: 1,
-    marginBottom: 16,
-    paddingHorizontal: 8,
+    borderColor: '#ccc',
+    padding: 10,
+    borderRadius: 4,
+    marginBottom: 12,
   },
-  frequencyContainer: {
+  switchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 12,
   },
-  frequencyButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 16,
+  pickerContainer: {
+    marginBottom: 12,
   },
-  frequencyButton: {
-    padding: 10,
+  picker: {
+    height: 50,
+    width: '100%',
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 5,
-  },
-  selectedButton: {
-    backgroundColor: '#007BFF',
-  },
-  buttonText: {
-    color: '#fff',
   },
 });
 
-export default CreateEventScreen;
+export default EventCreationScreen;
