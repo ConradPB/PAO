@@ -78,7 +78,7 @@ const UpcomingMeetupsScreen: React.FC = () => {
   // Main render function
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Upcoming Meetups</Text>
+      <Text style={styles.header}> Your PÃOutings</Text>
 
       {loading ? (
         <View style={styles.loadingContainer}>
