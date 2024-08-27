@@ -5,7 +5,7 @@ const NotificationsScreen = () => {
   // Sample data for notifications 
 
   const notifications = [
-    { id: '1', title: 'New Meetup Available', description: 'A new meetup on modern spirituality is available.' },
+    { id: '1', title: 'New PÃOut Available', description: 'A new meetup on modern spirituality is available.' },
     { id: '2', title: 'Reminder: Dinner Tomorrow', description: 'Don\'t forget about your dinner tomorrow at 7 PM.' },
     { id: '3', title: 'Profile Updated', description: 'Your profile has been successfully updated.' },
   ];
@@ -20,7 +20,7 @@ const NotificationsScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Notifications</Text>
+      <Text style={styles.header}>Ready to PÃOut?</Text>
       <FlatList 
         data={notifications}
         renderItem={renderNotificationItem}
