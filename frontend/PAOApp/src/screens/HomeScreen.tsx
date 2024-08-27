@@ -13,27 +13,19 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Welcome to PÃO</Text>
-      <Text style={styles.subtitle}>Your hub for meaningful connections.</Text>
+      <Text style={styles.subtitle}>Your hub for faithful connections.</Text>
 
       <Button 
         title="Profile"
         onPress={() => navigation.navigate('Profile')}
       />
       <Button
-      title="Meal Match"
+      title="Break Bread"
       onPress={() => navigation.navigate('MealMatch')}
       />
       <Button 
-        title="Create New Event"
-        onPress={() => navigation.navigate('CreateEvent')}
-      />
-      <Button 
-        title="Upcoming Meetups"
+        title="Upcoming PÃOutings"
         onPress={() => navigation.navigate('Meetups')}
-      />
-      <Button 
-        title="Discover"
-        onPress={() => navigation.navigate('Discover')}
       />
       <Button 
         title="Notifications"
