@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, StyleSheet, Switch, FlatList, Alert } from 'react-native';
+import { View, Text, Button, StyleSheet, Switch, FlatList, Alert, ActivityIndicator, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import api from 'services/api';
+import api from '../services/api';
+import { RootStackParamList } from '../navigation/types';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from 'navigation/types';
 
 type MealMatchScreenNavigationProp = StackNavigationProp<RootStackParamList, 'MealMatch'>;
-
 
 const MealMatchScreen = () => {
   const navigation = useNavigation<MealMatchScreenNavigationProp>();
@@ -15,6 +14,7 @@ const MealMatchScreen = () => {
   const [isAvailable, setIsAvailable] = useState(false);
   const [matches, setMatches] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isFindingMatch, setIsFindingMatch] = useState(false);
 
   useEffect(() => {
     checkLoginStatus();
@@ -22,15 +22,12 @@ const MealMatchScreen = () => {
 
   const checkLoginStatus = async () => {
     try {
-      const token = await AsyncStorage.getItem('userToken');
+      const token = await AsyncStorage.getItem('authToken'); // Changed to 'authToken' to match previous screens
       if (token) {
-        // Set the token for API calls
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        // Fetch user's current availability status
         const userResponse = await api.get('api/users/profile');
         setIsAvailable(userResponse.data.isAvailableForMeal);
       } else {
-        // If no token is found, redirect to login
         Alert.alert('Please log in to use this feature');
         navigation.navigate('Login');
       }
@@ -53,16 +50,25 @@ const MealMatchScreen = () => {
 
   const findMatch = async () => {
     try {
+      setIsFindingMatch(true);
       const response = await api.post('api/match/match-for-meal');
       setMatches(response.data.matches);
+      Alert.alert('Match found!', 'You have new matches to review.');
     } catch (error) {
       console.error('Error finding match:', error);
       Alert.alert('Error', 'Failed to find a match');
+    } finally {
+      setIsFindingMatch(false);
     }
   };
 
   if (isLoading) {
-    return <View style={styles.container}><Text>Loading...</Text></View>;
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Text>Loading...</Text>
+      </View>
+    );
   }
 
   return (
@@ -72,16 +78,22 @@ const MealMatchScreen = () => {
         <Text>Available for meal:</Text>
         <Switch value={isAvailable} onValueChange={toggleAvailability} />
       </View>
-      <Button title="Find Match" onPress={findMatch} disabled={!isAvailable} />
+      <Button
+        title={isFindingMatch ? "Finding Match..." : "Find Match"}
+        onPress={findMatch}
+        disabled={!isAvailable || isFindingMatch}
+      />
       <FlatList
         data={matches}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <View style={styles.matchItem}>
-            <Text>{item.name}</Text>
-            <Text>{item.faith}</Text>
+            <Text style={styles.matchText}>Name: {item.name}</Text>
+            <Text style={styles.matchText}>Faith: {item.faith}</Text>
+            <Text style={styles.matchText}>Location: {item.location}</Text>
           </View>
         )}
+        ListEmptyComponent={<Text style={styles.noMatchesText}>No matches found. Try again later.</Text>}
       />
     </View>
   );
@@ -92,9 +104,15 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   title: {
     fontSize: 24,
     marginBottom: 20,
+    textAlign: 'center',
   },
   availabilityContainer: {
     flexDirection: 'row',
@@ -105,6 +123,15 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
+  },
+  matchText: {
+    fontSize: 16,
+  },
+  noMatchesText: {
+    textAlign: 'center',
+    marginTop: 20,
+    fontSize: 16,
+    color: '#888',
   },
 });
 
