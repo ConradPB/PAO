@@ -1,5 +1,6 @@
+// Import necessary dependencies
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, StyleSheet, Switch, FlatList, Alert, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { View, Text, Button, StyleSheet, Switch, FlatList, Alert, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import api from '../services/api';
@@ -53,6 +54,8 @@ const MealMatchScreen = () => {
       setIsFindingMatch(true);
       const response = await api.post('api/match/match-for-meal');
       setMatches(response.data.matches);
+      // Save matches to AsyncStorage
+      await AsyncStorage.setItem('mealMatches', JSON.stringify(response.data.matches));
       Alert.alert('Match found!', 'You have new matches to review.');
     } catch (error) {
       console.error('Error finding match:', error);
@@ -99,6 +102,7 @@ const MealMatchScreen = () => {
   );
 };
 
+// Define styles for MealMatchScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
