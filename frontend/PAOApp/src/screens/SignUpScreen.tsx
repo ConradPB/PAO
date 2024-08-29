@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Image, TouchableOpacity, Alert, Platform } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import paologo from '../assets/images/PAOlogo.jpg';
 import { RootStackParamList } from 'navigation/types';
 import api from 'services/api';
+import { Picker } from '@react-native-picker/picker';
 
 type SignUpScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'SignUp'>;
 
@@ -55,92 +56,127 @@ const SignUpScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Image source={paologo} style={styles.logo} />
-      <Text style={styles.title}>Sign Up</Text>
+      <Text style={styles.title}>Create Account</Text>
       <TextInput
-        style={styles.input}
         placeholder="Name"
         value={name}
         onChangeText={setName}
-        autoCapitalize="words"
+        style={styles.input}
       />
       <TextInput
-        style={styles.input}
         placeholder="Email"
-        keyboardType="email-address"
         value={email}
         onChangeText={setEmail}
-        autoCapitalize="none"
+        keyboardType="email-address"
+        style={styles.input}
       />
       <TextInput
-        style={styles.input}
         placeholder="Password"
-        secureTextEntry
         value={password}
         onChangeText={setPassword}
-        autoCapitalize="none"
+        secureTextEntry
+        style={styles.input}
       />
       <TextInput
-        style={styles.input}
         placeholder="Age"
-        keyboardType="numeric"
         value={age}
         onChangeText={setAge}
+        keyboardType="numeric"
+        style={styles.input}
       />
       <TextInput
-        style={styles.input}
         placeholder="Location"
         value={location}
         onChangeText={setLocation}
-      />
-      <TextInput
         style={styles.input}
-        placeholder="Faith"
-        value={faith}
-        onChangeText={setFaith}
       />
-      <Button title={isLoading ? 'Signing Up...' : 'Sign Up'} onPress={handleSignUp} disabled={isLoading} />
-      
-      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.linkText}>
-          Already have an account? <Text style={styles.link}>Login</Text>
-        </Text>
+
+      <View style={styles.pickerContainer}>
+        <Picker
+          selectedValue={gender}
+          onValueChange={(itemValue) => setGender(itemValue)}
+          style={styles.picker}
+          mode="dropdown"
+        >
+          <Picker.Item label="Select Gender" value="" />
+          <Picker.Item label="Male" value="Male" />
+          <Picker.Item label="Female" value="Female" />
+          <Picker.Item label="Non-binary" value="Non-binary" />
+          <Picker.Item label="Prefer not to say" value="Prefer not to say" />
+          <Picker.Item label="Other" value="Other" />
+        </Picker>
+      </View>
+
+      {/* Conditionally render the custom gender input if "Other" is selected */}
+      {gender === 'Other' && (
+        <TextInput
+          placeholder="Please specify"
+          value={customGender}
+          onChangeText={setCustomGender}
+          style={styles.input}
+        />
+      )}
+
+      <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+        <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     padding: 20,
-    backgroundColor: '#fff',
+    justifyContent: 'center',
+    backgroundColor: '#f5f5f5',
   },
-  logo: {
-    width: 100,
-    height: 66,
-    resizeMode: 'contain',
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#333',
     alignSelf: 'center',
     marginBottom: 20,
   },
-  title: {
-    fontSize: 24,
-    marginBottom: 20,
-    textAlign: 'center',
-  },
   input: {
-    height: 50,
-    borderColor: '#ccc',
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 10,
+    fontSize: 16,
+    marginBottom: 10,
+    borderColor: '#ddd',
     borderWidth: 1,
-    marginBottom: 20,
-    paddingHorizontal: 10,
   },
-  linkText: {
+  pickerContainer: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    borderColor: '#ddd',
+    borderWidth: 1,
+    marginBottom: 10,
+    overflow: 'hidden',
+  },
+  picker: {
+    height: 50,
+    ...Platform.select({
+      android: {
+        color: '#666',
+      },
+      ios: {
+        color: '#333',
+      },
+    }),
+  },
+  button: {
+    backgroundColor: '#6200ee',
+    paddingVertical: 15,
+    borderRadius: 10,
+    alignItems: 'center',
     marginTop: 20,
-    textAlign: 'center',
   },
-  link: {
-    color: 'blue',
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 
