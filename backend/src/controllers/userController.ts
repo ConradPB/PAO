@@ -143,3 +143,31 @@ export const updateUserProfile = async (req: AuthenticatedRequest, res: Response
     return res.status(404).json({ message: 'User not found' });
   }
 };
+
+// Function to update user availability
+export const updateUserAvailability = async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
+  try {
+    // Check if req.user is defined
+    if (!req.user) {
+      return res.status(401).json({ message: 'User not authenticated' });
+    }
+
+    const userId = req.user._id;  // Safely access _id since we've checked req.user is defined
+    const { isAvailableForMeal } = req.body;  // Extract the new availability status from the request body
+
+    // Update the user's availability status
+    const user = await User.findById(userId);  // Fetch the user from the database using their ID
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    user.isAvailableForMeal = isAvailableForMeal;  // Update the user's availability
+    await user.save();  // Save the updated user document
+
+    return res.status(200).json({ message: 'Availability updated successfully', isAvailableForMeal: user.isAvailableForMeal });
+  } catch (error) {
+    console.error('Error updating availability:', error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
