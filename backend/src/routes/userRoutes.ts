@@ -5,6 +5,7 @@ import {
   loginUser,
   getUserProfile,
   updateUserProfile,
+  updateUserAvailability,
 } from '../controllers/userController.js';
 import protect from '../middleware/authMiddleware.js';
 import { AuthenticatedRequest } from '../types/custom.js';
@@ -40,5 +41,7 @@ const handleAuthRequest = (handler: (req: AuthenticatedRequest, res: Response, n
 
 router.get('/profile', protect, handleAuthRequest(getUserProfile));
 router.put('/profile', protect, handleAuthRequest(updateUserProfile));
+router.put('/update-availability', protect as any, updateUserAvailability as any);
+
 
 export default router;
