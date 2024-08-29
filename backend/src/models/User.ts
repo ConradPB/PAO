@@ -6,7 +6,7 @@ export interface IUser extends Document {
   name: string;
   email: string;
   password?: string;
-  age?: number;       // Added age
+  dob: { type: Date, required: true },
   location?: string;  // Added location
   faith?: string; // Added faith
   isAvailableForMeal: boolean;
