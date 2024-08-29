@@ -1,4 +1,3 @@
-// Import necessary dependencies
 import React, { useState, useEffect } from 'react';
 import { View, Text, Button, StyleSheet, Switch, FlatList, Alert, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
