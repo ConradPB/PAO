@@ -62,7 +62,6 @@ const SignUpScreen = () => {
         resizeMode="contain"
       />
       <Text style={styles.title}>Create Account</Text>
-
       
       <TextInput
         placeholder="Name"
