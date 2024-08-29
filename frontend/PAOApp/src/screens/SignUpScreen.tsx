@@ -137,8 +137,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   logo: {
-    width: 150,  // Adjust width as necessary
-    height: 150, // Adjust height as necessary
+    width: 150,  
+    height: 150, 
     alignSelf: 'center',
     marginBottom: 20,
   },
