@@ -56,6 +56,11 @@ const SignUpScreen = () => {
 
   return (
     <View style={styles.container}>
+         <Image 
+        source={require('../assets/images/PAOlogo.jpg')} 
+        style={styles.logo}
+        resizeMode="contain"
+      />
       <Text style={styles.title}>Create Account</Text>
       <TextInput
         placeholder="Name"
@@ -130,6 +135,12 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: 'center',
     backgroundColor: '#f5f5f5',
+  },
+  logo: {
+    width: 150,  // Adjust width as necessary
+    height: 150, // Adjust height as necessary
+    alignSelf: 'center',
+    marginBottom: 20,
   },
   title: {
     fontSize: 32,
