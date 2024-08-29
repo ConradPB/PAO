@@ -6,6 +6,7 @@ import paologo from '../assets/images/PAOlogo.jpg';
 import { RootStackParamList } from 'navigation/types';
 import api from 'services/api';
 import { Picker } from '@react-native-picker/picker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 type SignUpScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'SignUp'>;
 
@@ -15,15 +16,16 @@ const SignUpScreen = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [age, setAge] = useState('');
+  const [dob, setDob] = useState<Date | null>(null);  // Updated state to store date of birth
   const [location, setLocation] = useState('');
   const [faith, setFaith] = useState(''); 
   const [isLoading, setIsLoading] = useState(false);
   const [gender, setGender] = useState('');
   const [customGender, setCustomGender] = useState('');
+  const [showDatePicker, setShowDatePicker] = useState(false);  
 
   const handleSignUp = async () => {
-    if (!name || !email || !password || !age || !location || !faith) {
+    if (!name || !email || !password || !dob || !location || !faith) {
       Alert.alert('Error', 'Please fill in all fields.');
       return;
     }
@@ -34,7 +36,7 @@ const SignUpScreen = () => {
         name,
         email,
         password,
-        age,
+        dateOfBirth: dob?.toISOString(),
         location,
         faith, 
       });
@@ -54,10 +56,17 @@ const SignUpScreen = () => {
     }
   };
 
+  const handleDateChange = (event: any, selectedDate?: Date) => {
+    setShowDatePicker(false);  // Hide date picker after selection
+    if (selectedDate) {
+      setDob(selectedDate);
+    }
+  };
+
   return (
     <View style={styles.container}>
-         <Image 
-        source={require('../assets/images/PAOlogo.jpg')} 
+      <Image 
+        source={paologo} 
         style={styles.logo}
         resizeMode="contain"
       />
@@ -83,13 +92,24 @@ const SignUpScreen = () => {
         secureTextEntry
         style={styles.input}
       />
-      <TextInput
-        placeholder="Age"
-        value={age}
-        onChangeText={setAge}
-        keyboardType="numeric"
-        style={styles.input}
-      />
+      
+      {/* Date of Birth Picker */}
+      <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.datePicker}>
+        <Text style={{ color: dob ? '#333' : '#999' }}>
+          {dob ? dob.toDateString() : 'Select Date of Birth'}
+        </Text>
+      </TouchableOpacity>
+
+      {showDatePicker && (
+        <DateTimePicker
+          value={dob || new Date(2000, 0, 1)}  // Default to a reasonable date
+          mode="date"
+          display="default"
+          onChange={handleDateChange}
+          maximumDate={new Date()}  // Prevent selecting future dates
+        />
+      )}
+
       <TextInput
         placeholder="Location"
         value={location}
@@ -158,6 +178,15 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderColor: '#ddd',
     borderWidth: 1,
+  },
+  datePicker: {
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 10,
+    marginBottom: 10,
+    borderColor: '#ddd',
+    borderWidth: 1,
+    justifyContent: 'center',
   },
   pickerContainer: {
     backgroundColor: '#fff',
