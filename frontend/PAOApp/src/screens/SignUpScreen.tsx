@@ -18,6 +18,8 @@ const SignUpScreen = () => {
   const [location, setLocation] = useState('');
   const [faith, setFaith] = useState(''); 
   const [isLoading, setIsLoading] = useState(false);
+  const [gender, setGender] = useState('');
+  const [customGender, setCustomGender] = useState('');
 
   const handleSignUp = async () => {
     if (!name || !email || !password || !age || !location || !faith) {
