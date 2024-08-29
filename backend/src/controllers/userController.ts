@@ -29,7 +29,7 @@ export const registerUser = async (req: Request, res: Response): Promise<Respons
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { name, email, password, age, location } = req.body;
+  const { name, email, password, dob, location } = req.body;
 
   try {
     const userExists = await User.findOne({ email });
@@ -45,7 +45,7 @@ export const registerUser = async (req: Request, res: Response): Promise<Respons
       name,
       email,
       password: hashedPassword,
-      age,
+      dob,
       location,
     });
 
@@ -53,7 +53,7 @@ export const registerUser = async (req: Request, res: Response): Promise<Respons
       _id: user._id,
       name: user.name,
       email: user.email,
-      age: user.age,
+      dob: user.dob,
       location: user.location,
       token: generateToken(user._id.toString()),
     });
@@ -101,7 +101,7 @@ export const getUserProfile = async (req: AuthenticatedRequest, res: Response): 
       _id: user._id,
       name: user.name,
       email: user.email,
-      age: user.age,          
+      dob: user.dob,          
       location: user.location,
     });
   } else {
@@ -116,7 +116,7 @@ export const updateUserProfile = async (req: AuthenticatedRequest, res: Response
   if (user) {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
-    user.age = req.body.age || user.age;            
+    user.dob = req.body.age || user.dob;            
     user.location = req.body.location || user.location; 
 
     if (req.body.password) {
@@ -131,7 +131,7 @@ export const updateUserProfile = async (req: AuthenticatedRequest, res: Response
         _id: updatedUser._id,
         name: updatedUser.name,
         email: updatedUser.email,
-        age: updatedUser.age,
+        dob: updatedUser.dob,
         location: updatedUser.location,
         token: generateToken(updatedUser._id.toString()),
       });
