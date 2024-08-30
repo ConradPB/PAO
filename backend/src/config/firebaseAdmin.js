@@ -6,7 +6,7 @@ const serviceAccount = require(join(__dirname, './path/to/service-account-file.j
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com"
+  databaseURL: "https://paocommunity-14f72.firebaseio.com"
 });
 
 export default admin;
