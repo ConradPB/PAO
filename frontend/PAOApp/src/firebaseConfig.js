@@ -6,7 +6,7 @@ const firebaseConfig = {
   authDomain: "paocommunity-14f72.firebaseapp.com",
   projectId: "paocommunity-14f72",
   storageBucket: "paocommunity-14f72.appspot.com",
-  messagingSenderId: "MESSAGING_SENDER_ID",
+  messagingSenderId: "628514439370",
   appId: "APP_ID",
 };
 
