@@ -15,13 +15,20 @@
       "supportsTablet": true
     },
     "android": {
+      "googleServicesFile": "./android/app/google-services.json", 
+      "useNextNotificationsApi": true, 
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.paoapp.app" 
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "favicon": "./assets/favicon.png" 
+    },
+    "plugins": [
+      "@react-native-firebase/app",
+      "@react-native-firebase/messaging"
+    ]
   }
 }
