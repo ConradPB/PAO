@@ -1,13 +1,17 @@
-// firebaseAdmin.js (Backend)
-import admin from 'firebase-admin';
-import { join } from 'path';
+import firebase from 'firebase/app';
+import 'firebase/messaging'; // Import any Firebase services you want to use
 
-// Path to service account key
-const serviceAccount = require(join(__dirname, './path/to/service-account-file.json'));
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID",
+};
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://PROJECT_ID.firebaseio.com"
-});
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
-export default admin;
+export const messaging = firebase.messaging();
