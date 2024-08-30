@@ -14,6 +14,7 @@ import session from 'express-session';
 import './config/passportConfig.js';
 import matchRoutes from './routes/matchRoutes.js';
 import cors from 'cors';
+import notificationRoutes from './routes/notificationRoutes.js';
 
 // Connect to MongoDB
 connectToMongoDB();
@@ -46,6 +47,8 @@ app.use('/api/tasks', taskRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/auth', authRoutes);
 app.use('/api/match', matchRoutes);
+app.use('/api/notifications', notificationRoutes); 
+
 
 // Error handling middleware
 app.use(notFound);
