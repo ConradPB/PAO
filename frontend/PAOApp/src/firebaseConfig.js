@@ -1,13 +1,13 @@
 import firebase from 'firebase/app';
-import 'firebase/messaging'; // Import any Firebase services you want to use
+import 'firebase/messaging'; 
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID",
+  apiKey: "API_KEY",
+  authDomain: "paocommunity-14f72.firebaseapp.com",
+  projectId: "paocommunity-14f72",
+  storageBucket: "paocommunity-14f72.appspot.com",
+  messagingSenderId: "MESSAGING_SENDER_ID",
+  appId: "APP_ID",
 };
 
 if (!firebase.apps.length) {
