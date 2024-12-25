@@ -9,9 +9,17 @@
   },
   "dependencies": {
     "@expo/metro-runtime": "~3.2.3",
+<<<<<<< HEAD
     "@react-native-async-storage/async-storage": "^2.0.0",
     "@react-native-community/datetimepicker": "8.0.1",
     "@react-native-picker/picker": "^2.8.1",
+=======
+    "@react-native-async-storage/async-storage": "^1.23.1",
+    "@react-native-community/datetimepicker": "^8.0.1",
+    "@react-native-firebase/app": "^20.4.0",
+    "@react-native-firebase/messaging": "^20.4.0",
+    "@react-native-picker/picker": "^2.7.5",
+>>>>>>> 5ac05f8e9e29d5d58f1746c2a895a3cd6ea88817
     "@react-navigation/drawer": "^6.7.2",
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/native-stack": "^6.11.0",
@@ -19,8 +27,12 @@
     "@reduxjs/toolkit": "^2.2.7",
     "axios": "^1.7.4",
     "expo": "^51.0.31",
+<<<<<<< HEAD
     "expo-notifications": "~0.28.17",
     "expo-router": "^3.5.23",
+=======
+    "expo-notifications": "~0.28.16",
+>>>>>>> 5ac05f8e9e29d5d58f1746c2a895a3cd6ea88817
     "expo-status-bar": "~1.12.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
